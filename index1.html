@@ -1,0 +1,45 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>What a pairs</title>
+</head>
+<body>
+    <a href = './tests.html'>tests</a>
+    <div id="root"></div>
+</body>
+</html> -->
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>What a pairs tests</title>
+</head>
+<body>
+    <div id="root"></div>
+</body>
+<!-- <script src='./tests/logicTests.js'></script>
+<script src="./libs/testReport.js"></script>
+<script src="./libs/injector.js"></script> -->
+
+<script type="module" src="./main.js"></script>
+<script>
+    (function() {
+        window.addEventListener('DOMContentLoaded', () => {
+            const testExecutor = new testReport();
+            const injector = new injector();
+            testExecutor.runTests(logicTestCases)
+            const testReport = testExecutor.testReport();
+            injector.inject(testReport)
+        })
+    })
+</script>
+</html>
