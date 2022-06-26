@@ -9,10 +9,11 @@ class TestReport {
      
     runTests(testCases, testedFunction) {
         testCases.forEach(testCase => {
+            const tf = testedFunction === undefined ? testCase.testedFunction(testCase.data):testedFunction(testCase.data)
             this.testResults.push({
                 expected: testCase.expected,
                 description:testCase.description,
-                data: testedFunction(testCase.data) 
+                result: tf === testCase.expected,
             })    
         })
     }
@@ -34,7 +35,7 @@ class TestReport {
                     },
                     {
                         type:basicHTMLElementTypes.TD,
-                        params: {innerText: test.expected},
+                        params: {innerText: test.result},
                     }
                 ]
             };
