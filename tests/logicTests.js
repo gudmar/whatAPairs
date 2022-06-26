@@ -1,4 +1,6 @@
 
+import generatePairCards from '../helpers/pairGenerator.js'
+
 export const logicTestCases = [
     {
         data: 1,
@@ -11,42 +13,6 @@ export const logicTestCases = [
         expected: 2,
     },
 ];
-
-export const pairsTestCases = [
-    {
-        data: {
-            nrOfCards: 31,
-            nrOfSymbolsOnACard: 6,
-        },
-        description: 'Sollution should be an array of arrays',
-        result: true
-    },
-    {
-        data: {
-            nrOfCards: 31,
-            nrOfSymbolsOnACard: 6,
-        },
-        description: 'Each card should have 6 different symbols on it',
-        result: true
-    },
-    {
-        data: {
-            nrOfCards: 31,
-            nrOfSymbolsOnACard: 6,
-        },
-        description: 'There should be 31 different symbols alltogeher',
-        result: 31
-    },
-    {
-        data: {
-            nrOfCards: 31,
-            nrOfSymbolsOnACard: 6,
-        },
-        description: 'There should be one and only one repeting sybol between a card and rest of cards',
-        result: true,
-    },
-
-]
 
 function isSolutionArrayOfArrays(solution){
     if (!Array.isArray(solution)) return false;
@@ -117,4 +83,55 @@ function symbolsBetweenEachCardRepeteOnce(solution) {
     return true;
 }
 
-export default logicTestCases;
+const pairsTestCases = [
+    {
+        data: {
+            nrOfCards: 31,
+            nrOfSymbolsOnACard: 6,
+        },
+        description: 'Sollution should be an array of arrays',
+        expected: true,
+        testedFunction: function(instanceData) {
+            const solution = generatePairCards(instanceData.nrOfCards, instanceData.nrOfSymbolsOnACard);
+            return isSolutionArrayOfArrays(solution);
+        }
+    },
+    {
+        data: {
+            nrOfCards: 31,
+            nrOfSymbolsOnACard: 6,
+        },
+        description: 'Each card should have 6 different symbols on it',
+        expected: true,
+        testedFunction: function(instanceData) {
+            const solution = generatePairCards(instanceData.nrOfCards, instanceData.nrOfSymbolsOnACard);
+            return eachCardShouldHave6Symbols(solution);
+        }
+    },
+    {
+        data: {
+            nrOfCards: 31,
+            nrOfSymbolsOnACard: 6,
+        },
+        description: 'There should be 31 different symbols alltogeher',
+        expected: 31,
+        testedFunction: function(instanceData) {
+            const solution = generatePairCards(instanceData.nrOfCards, instanceData.nrOfSymbolsOnACard);
+            return thereShouldBe31Cards(solution);
+        }
+    },
+    {
+        data: {
+            nrOfCards: 31,
+            nrOfSymbolsOnACard: 6,
+        },
+        description: 'There should be one and only one repeting sybol between a card and rest of cards',
+        expected: true,
+        testedFunction: function(instanceData) {
+            const solution = generatePairCards(instanceData.nrOfCards, instanceData.nrOfSymbolsOnACard);
+            return symbolsBetweenEachCardRepeteOnce(solution);
+        }
+    },
+]
+
+export default pairsTestCases;

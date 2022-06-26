@@ -11,18 +11,20 @@
     <div id="root"></div>
 </body>
 
-<script type="module" src="./main.js"></script>
-<script type="module" src="./libs/testReport.js"></script>
+<!-- <script type="module" src="./main.js"></script>
+<script type="module" src="./libs/testReport.js"></script> -->
 <script type="module">
     import TestReport from './libs/testReport.js';
     import Injector from './libs/injector.js';
-    import logicTestCases from './tests/logicTests.js'
+    // import logicTestCases from './tests/logicTests.js'
+    import pairsTestCases from './tests/logicTests.js'
     import generatePairCards from './helpers/pairGenerator.js';
     (function() {
         window.addEventListener('DOMContentLoaded', () => {
             const testExecutor = new TestReport();
             const injector = new Injector();
-            const testReport = testExecutor.getTestReport(logicTestCases, generatePairCards);
+            // const testReport = testExecutor.getTestReport(logicTestCases, generatePairCards);
+            const testReport = testExecutor.getTestReport(pairsTestCases, generatePairCards);
             injector.inject(testReport)
         })
     })()
