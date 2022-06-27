@@ -26,16 +26,24 @@ class TestReport {
                 children: [
                     {
                         type:basicHTMLElementTypes.TD,
-                        params: {innerText: index},
-                        
+                        params: {
+                            innerText: index,
+                            className:  test.result ? 'pass' : 'fail' + ' test-table-cell'
+                        },
                     },
                     {
                         type:basicHTMLElementTypes.TD,
-                        params: {innerText: test.description},
+                        params: {
+                            innerText: test.description,
+                            className: test.result ? 'pass' : 'fail' + ' test-table-cell'
+                        },
                     },
                     {
                         type:basicHTMLElementTypes.TD,
-                        params: {innerText: test.result},
+                        params: {
+                            innerText: test.result,
+                            className: test.result ? 'pass' : 'fail' + ' test-table-cell'
+                        },
                     }
                 ]
             };
@@ -46,6 +54,9 @@ class TestReport {
     createTestReport(){
         const testReportTemplate = {
             type: basicHTMLElementTypes.TABLE,
+            params: {
+                className: 'test-table',
+            },
             children: [
                 {
                     type: basicHTMLElementTypes.THEAD,
