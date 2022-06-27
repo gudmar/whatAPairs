@@ -1,17 +1,23 @@
 export default function generatePairCards(nrOfCards, nrOfSymbolsOnACard, nrOfSymbols) {
-    const symbols = Array(nrOfSymbols).fill().map((_, index) => index);
-    const symbolsAlreadyUsed = [];
-    const cardsAlreadyCreated = [];
-    const cardsCreatedAtTheMoment = [];
-    const indexOfLastSymbolCardWasCreated = -1;
-    const indexOfLastSymbolUsedToFill = -1;
+    let symbols = Array(nrOfSymbols).fill().map((_, index) => index);
+    let symbolsAlreadyUsed = [];
+    let cardsAlreadyCreated = [];
+    let cardsCreatedAtTheMoment = [];
+    let   indexOfLastSymbolCardWasCreated = -1;
+    let   indexOfLastSymbolUsedToFill = -1;
 
     // Take a symbol, and create nrOfSymbolsOnACard cards containing it and not used symbols as the rest
     // Take a next symbol, and check how many cards contain it, then create a card for every missing card 
     // If run out of symbols: alarm
 
+    function _test_injectCards(cards) {cardsAlreadyCreated = cards};
+    function _test_injectCardsCreated(cards) {cardsCreatedAtTheMoment = cards};
+    function _test_injectSymbols(symbolsForTests) {symbols = symbolsForTests};
+
+
     function countCardsContainingSymbol(symbol) {
         return cardsAlreadyCreated.reduce((acc, card, index) => {
+            if (!Array.isArray(card)) return acc;
             if (card.find(s => symbol === s)) acc +=1;
             return acc;
         }, 0)
@@ -29,14 +35,6 @@ export default function generatePairCards(nrOfCards, nrOfSymbolsOnACard, nrOfSym
         return symbols[indexOfLastSymbolUsedToFill];
     }
 
-    function takeNSymbolsForFilling(n) {
-        const nSymbols = [];
-        for (let i = 0; i < n; i++){
-            nSymbols.push(takeASymbolForFilling);
-        }
-        return nSymbols;
-    }
-
     function createUpToDesiredNrOfBlankCards(number, firstSymbol) {
         const nrOfCardsToCreate = nrOfCards - countCardsContainingSymbol(firstSymbol);
         for (let c = nrOfCardsToCreate; c > 0; c--) {
@@ -44,7 +42,7 @@ export default function generatePairCards(nrOfCards, nrOfSymbolsOnACard, nrOfSym
         }
     }
 
-    function checkIfCardsHasTwoSymbols(symbolA, symbolB, card){
+    function checkIfCardHasTwoSymbols(symbolA, symbolB, card){
         const hasSymbolA = card.find(symbol => symbolA === symbol);
         if (!hasSymbolA) return false;
         const hasSymbolB = card.find(symbol => symbolB === symbol);
@@ -55,7 +53,7 @@ export default function generatePairCards(nrOfCards, nrOfSymbolsOnACard, nrOfSym
         if (!cardToCheckIn.find(symbol => symbol === symbolA)) return false;
         for(let symbol of cardToTakeSymbolsFrom) {
             if (symbol !== symbolA) {
-                if (checkIfCardsHasTwoSymbols(symbolA, symbol, cardToCheckIn)) return true;
+                if (checkIfCardHasTwoSymbols(symbolA, symbol, cardToCheckIn)) return true;
             }
         }
         return false;
@@ -98,16 +96,45 @@ export default function generatePairCards(nrOfCards, nrOfSymbolsOnACard, nrOfSym
         }
     }
 
+    function moveCardsFromCreationToReady() {
+        if (cardsCreatedAtTheMoment.length > 0) {
+            do {
+                const cardToBeMoved = cardsCreatedAtTheMoment.pop();
+                cardsAlreadyCreated.push(cardToBeMoved);
+            } while (cardsCreatedAtTheMoment.length > 0)
+        }
+    }
+
     function createNewCards() {
         for (let symbol of symbols){
             const newSymbol = takeASymbolForCardCreation();
             createUpToDesiredNrOfBlankCards(nrOfCards, symbol);
             fillCardsThatAreCreatedWithSymbols();
-        }
-        
-        const nrOfCardsWithNewSymbol = countCardsContainingSymbol(newSymbol);
-        const nrOfCardsThatAreNeeded = nrOfSymbolsOnACard - nrOfCardsWithNewSymbol;
+            moveCardsFromCreationToReady();
+        }        
     }
 
-    return 1;
+    function getCards() {
+        createNewCards();
+        return cardsAlreadyCreated;
+    }
+
+    return {
+        countCardsContainingSymbol: countCardsContainingSymbol,
+        takeASymbolForCardCreation: takeASymbolForCardCreation,
+        takeASymbolForFilling: takeASymbolForFilling,
+        createUpToDesiredNrOfBlankCards: createUpToDesiredNrOfBlankCards,
+        // checkIfCardHasTwoSymbols: checkIfCardHasTwoSymbols,
+        checkIfCardsHaveSymbolAAndOtherRepetingSymbol: checkIfCardsHaveSymbolAAndOtherRepetingSymbol,
+        checkIfAnyCardHasSymbolAAndAnyOtherSymbol: checkIfAnyCardHasSymbolAAndAnyOtherSymbol,
+        fillCardWithSymbol: fillCardWithSymbol,
+        fillCardWithAllSymbols: fillCardWithAllSymbols,
+        fillCardsThatAreCreatedWithSymbols: fillCardsThatAreCreatedWithSymbols,
+        moveCardsFromCreationToReady: moveCardsFromCreationToReady,
+        createNewCards,
+        _test_injectCards,
+        _test_injectCardsCreated,
+        _test_injectSymbols,
+        getCards,
+    }
 }
