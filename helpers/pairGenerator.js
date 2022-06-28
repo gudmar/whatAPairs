@@ -12,6 +12,7 @@ export default function generatePairCards(nrOfCards, nrOfSymbolsOnACard, nrOfSym
 
     function _test_injectCards(cards) {cardsAlreadyCreated = cards};
     function _test_injectCardsCreated(cards) {cardsCreatedAtTheMoment = cards};
+    function _test_injectCardsAlreadyCreated(cards) {cardsAlreadyCreated = cards};
     function _test_injectSymbols(symbolsForTests) {symbols = symbolsForTests};
 
 
@@ -135,6 +136,7 @@ export default function generatePairCards(nrOfCards, nrOfSymbolsOnACard, nrOfSym
         _test_injectCards,
         _test_injectCardsCreated,
         _test_injectSymbols,
+        _test_injectCardsAlreadyCreated,
         getCards,
     }
 }
