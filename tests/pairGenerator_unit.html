@@ -25,12 +25,15 @@
             const htmlCreator = new BasicHTMLElementCreator();
             const testExecutor = new TestReport();
             const injector = new Injector();
-            const testReport_countCardsContainingSymbol = testExecutor.getTestReport(countCardsContainingSymbol_TC);
+            const testReport_countCardsContainingSymbol = testExecutor.getTestReport({
+                testCases: countCardsContainingSymbol_TC,
+                title: 'countCardsContainingSymbol'
+            });
             injector.inject(htmlCreator.createBasicHTMLElement('h3',[{innerText: 'countCardsContainingSymbol'}]))
             injector.inject(testReport_countCardsContainingSymbol)
         })
     })()
-    const cardGenerator = generatePairCards(31, 6, 31);
-    console.log('cards:', cardGenerator.getCards());
+    // const cardGenerator = generatePairCards(31, 6, 31);
+    // console.log('cards:', cardGenerator.getCards());
 </script>
 </html>

@@ -7,15 +7,25 @@ class TestReport {
         this.componentCreator = new ComponentCreator();
     }
      
-    runTests(testCases, testedFunction) {
+    runTests({testCases, testedFunction, matcher, title}) {
+        console.group(title);
+        if (!matcher) matcher = (a, b) => a === b;
         testCases.forEach(testCase => {
-            const tf = testedFunction === undefined ? testCase.testedFunction(testCase.data):testedFunction(testCase.data)
+            const tf = testedFunction === undefined ? testCase.testedFunction(testCase.mockData):testedFunction(testCases.data)
+            const actualResult = tf(testCase.input);
             this.testResults.push({
                 expected: testCase.expected,
                 description:testCase.description,
-                result: tf === testCase.expected,
-            })    
+                result: matcher(actualResult, testCase.expected),
+            })
+            console.log(testCase.description, {
+                'Description': testCase.description,
+                'Expected': testCase.expected,
+                'Test outcome': matcher(actualResult, testCase.expected),
+                'Calculated result': actualResult,
+            })
         })
+        console.groupEnd();
     }
 
     TestTableRows() {
@@ -28,21 +38,21 @@ class TestReport {
                         type:basicHTMLElementTypes.TD,
                         params: {
                             innerText: index,
-                            className:  test.result ? 'pass' : 'fail' + ' test-table-cell'
+                            className:  (test.result ? 'pass' : 'fail') + ' test-table-cell'
                         },
                     },
                     {
                         type:basicHTMLElementTypes.TD,
                         params: {
                             innerText: test.description,
-                            className: test.result ? 'pass' : 'fail' + ' test-table-cell'
+                            className:  (test.result ? 'pass' : 'fail') + ' test-table-cell'
                         },
                     },
                     {
                         type:basicHTMLElementTypes.TD,
                         params: {
                             innerText: test.result,
-                            className: test.result ? 'pass' : 'fail' + ' test-table-cell'
+                            className:  (test.result ? 'pass' : 'fail') + ' test-table-cell'
                         },
                     }
                 ]
@@ -53,49 +63,62 @@ class TestReport {
 
     createTestReport(){
         const testReportTemplate = {
-            type: basicHTMLElementTypes.TABLE,
-            params: {
-                className: 'test-table',
-            },
+            type: basicHTMLElementTypes.DIV,
             children: [
                 {
-                    type: basicHTMLElementTypes.THEAD,
-                    children: [
-                        {
-                            type: basicHTMLElementTypes.TH,
-                            params:{
-                                innerText: 'Nr',
-                                className: 'test-table-head',
-                            }
-                        },
-                        {
-                            type: basicHTMLElementTypes.TH,
-                            params: {
-                                innerText: 'Description',
-                                className: 'test-table-head',
-                            }
-                        },
-                        {
-                            type: basicHTMLElementTypes.TH,
-                            params: {
-                                innerText: 'Result',
-                                className: 'test-table-head',
-                            }
-                        },
-
-                    ]
+                    type: basicHTMLElementTypes.H2,
+                    params: {
+                        innerText: this.title,
+                        className: 'test-title'
+                    },                        
                 },
                 {
-                    type: basicHTMLElementTypes.TBODY,
-                    children: this.TestTableRows(),
+                    type: basicHTMLElementTypes.TABLE,
+                    params: {
+                        className: 'test-table',
+                    },
+                    children: [
+                        {
+                            type: basicHTMLElementTypes.THEAD,
+                            children: [
+                                {
+                                    type: basicHTMLElementTypes.TH,
+                                    params:{
+                                        innerText: 'Nr',
+                                        className: 'test-table-head',
+                                    }
+                                },
+                                {
+                                    type: basicHTMLElementTypes.TH,
+                                    params: {
+                                        innerText: 'Description',
+                                        className: 'test-table-head',
+                                    }
+                                },
+                                {
+                                    type: basicHTMLElementTypes.TH,
+                                    params: {
+                                        innerText: 'Test result',
+                                        className: 'test-table-head',
+                                    }
+                                },
+
+                            ]
+                        },
+                        {
+                            type: basicHTMLElementTypes.TBODY,
+                            children: this.TestTableRows(),
+                        }
+                    ]
                 }
             ]
-        }
+        };
         return this.componentCreator.createAComponent(testReportTemplate);
     }
 
-    getTestReport(testCases, testedFunction) {
-        this.runTests(testCases, testedFunction);
+    getTestReport({testCases, testedFunction, matcher, title}) {
+        this.title = title;
+        this.runTests({testCases, testedFunction, matcher, title});
         return this.createTestReport();
     }
 
