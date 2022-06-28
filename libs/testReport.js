@@ -28,6 +28,10 @@ class TestReport {
         console.groupEnd();
     }
 
+    clearTestResults() {
+        this.testResults = [];
+    }
+
     TestTableRows() {
         return this.testResults.map((test, index) => {
             const testRowTemplate = {

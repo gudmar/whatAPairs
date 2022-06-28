@@ -1,4 +1,4 @@
-export default function generatePairCards(nrOfCards, nrOfSymbolsOnACard, nrOfSymbols) {
+export default function generatePairCards({nrOfCards, nrOfSymbolsOnACard, nrOfSymbols}) {
     let symbols = Array(nrOfSymbols).fill().map((_, index) => index);
     let symbolsAlreadyUsed = [];
     let cardsAlreadyCreated = [];
@@ -14,6 +14,8 @@ export default function generatePairCards(nrOfCards, nrOfSymbolsOnACard, nrOfSym
     function _test_injectCardsCreated(cards) {cardsCreatedAtTheMoment = cards};
     function _test_injectCardsAlreadyCreated(cards) {cardsAlreadyCreated = cards};
     function _test_injectSymbols(symbolsForTests) {symbols = symbolsForTests};
+
+    function _test_getCardsCreatedAtTheMoment() {return cardsCreatedAtTheMoment};
 
 
     function countCardsContainingSymbol(symbol) {
@@ -41,6 +43,7 @@ export default function generatePairCards(nrOfCards, nrOfSymbolsOnACard, nrOfSym
         for (let c = nrOfCardsToCreate; c > 0; c--) {
             cardsCreatedAtTheMoment.push(firstSymbol);
         }
+        console.log(nrOfCardsToCreate)
     }
 
     function checkIfCardHasTwoSymbols(symbolA, symbolB, card){
@@ -137,6 +140,7 @@ export default function generatePairCards(nrOfCards, nrOfSymbolsOnACard, nrOfSym
         _test_injectCardsCreated,
         _test_injectSymbols,
         _test_injectCardsAlreadyCreated,
+        _test_getCardsCreatedAtTheMoment,
         getCards,
     }
 }

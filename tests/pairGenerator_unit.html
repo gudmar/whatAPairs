@@ -19,18 +19,28 @@
     import generatePairCards from '../helpers/pairGenerator.js'
     import {
         countCardsContainingSymbol_TC,
+        createUpToDesiredNrOfBlankCards_TC,
     } from './pairGenerator_unit.js'
     (function() {
         window.addEventListener('DOMContentLoaded', () => {
             const htmlCreator = new BasicHTMLElementCreator();
             const testExecutor = new TestReport();
             const injector = new Injector();
+
             const testReport_countCardsContainingSymbol = testExecutor.getTestReport({
                 testCases: countCardsContainingSymbol_TC,
                 title: 'countCardsContainingSymbol'
             });
             injector.inject(htmlCreator.createBasicHTMLElement('h3',[{innerText: 'countCardsContainingSymbol'}]))
             injector.inject(testReport_countCardsContainingSymbol)
+
+
+            testExecutor.clearTestResults();
+            const testReport_createUpToDesiredNrOfBlankCards = testExecutor.getTestReport({
+                testCases: createUpToDesiredNrOfBlankCards_TC,
+                title: 'createUpToDesiredNrOfBlankCards'
+            });
+            injector.inject(testReport_createUpToDesiredNrOfBlankCards);
         })
     })()
     // const cardGenerator = generatePairCards(31, 6, 31);
