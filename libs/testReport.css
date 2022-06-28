@@ -1,6 +1,7 @@
 #root{
     display: flex;
-    justify-content: center
+    align-items: center;
+    flex-direction: column;
 }
 .test-table{
     font-family: Arial, Helvetica, sans-serif;
