@@ -72,7 +72,6 @@ export default function generatePairCards({nrOfCards, nrOfSymbolsOnACard, nrOfSy
             }
         }
         if (cardsCreatedAtTheMoment.length > 0) {
-            console.log(cardsCreatedAtTheMoment)
             for(let card of cardsCreatedAtTheMoment){
                 if (cardToTakeSymbolsFrom !== card){
                     if (checkIfCardsHaveSymbolAAndOtherRepetingSymbol(card, cardToTakeSymbolsFrom, symbolA)) return true;
