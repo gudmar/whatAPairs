@@ -14,6 +14,7 @@ export default function generatePairCards({nrOfCards, nrOfSymbolsOnACard, nrOfSy
     function _test_injectCardsCreated(cards) {cardsCreatedAtTheMoment = cards};
     function _test_injectCardsAlreadyCreated(cards) {cardsAlreadyCreated = cards};
     function _test_injectSymbols(symbolsForTests) {symbols = symbolsForTests};
+    function _test_injectSymbolsAlreadyUsed(symbolsForTests) {symbolsAlreadyUsed = symbolsForTests}
 
     function _test_getCardsCreatedAtTheMoment() {return cardsCreatedAtTheMoment};
 
@@ -87,9 +88,10 @@ export default function generatePairCards({nrOfCards, nrOfSymbolsOnACard, nrOfSy
         do {
             const newSymbol = takeASymbolForFilling();
             card.push(newSymbol);
-            symbolSuccessfullyChosen = checkIfAnyCardHasSymbolAAndAnyOtherSymbol(newSymbol, card);
+            symbolSuccessfullyChosen = !checkIfAnyCardHasSymbolAAndAnyOtherSymbol(newSymbol, card);
             if(!symbolSuccessfullyChosen) card.pop();
         } while (symbolSuccessfullyChosen);
+        return card; // return statement just for testing
     }
 
     function fillCardWithAllSymbols(card) {
@@ -145,6 +147,7 @@ export default function generatePairCards({nrOfCards, nrOfSymbolsOnACard, nrOfSy
         _test_injectSymbols,
         _test_injectCardsAlreadyCreated,
         _test_getCardsCreatedAtTheMoment,
+        _test_injectSymbolsAlreadyUsed,
         getCards,
     }
 }

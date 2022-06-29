@@ -20,7 +20,8 @@
     import {
         countCardsContainingSymbol_TC,
         createUpToDesiredNrOfBlankCards_TC,
-        checkIfAnyCardHasSymbolAAndAnyOtherSymbo_TC
+        checkIfAnyCardHasSymbolAAndAnyOtherSymbo_TC,
+        fillCardWithSymbol_TC,
     } from './pairGenerator_unit.js'
     (function() {
         window.addEventListener('DOMContentLoaded', () => {
@@ -49,6 +50,15 @@
                 title: 'checkIfAnyCardHasSymbolAAndAnyOtherSymbo'
             })
             injector.inject(testReport_checkIfAnyCardHasSymbolAAndAnyOtherSymbo)
+
+            testExecutor.clearTestResults();
+            const testReport_fillCardWithSymbols = testExecutor.getTestReport({
+                testCases: fillCardWithSymbol_TC,
+                title: 'fillCardWithSymbol_TC'
+            })
+            injector.inject(testReport_fillCardWithSymbols)
+
+
         })
     })()
     // const cardGenerator = generatePairCards(31, 6, 31);

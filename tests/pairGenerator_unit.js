@@ -20,6 +20,7 @@ const {
     _test_injectSymbols,
     _test_injectCardsAlreadyCreated,
     _test_getCardsCreatedAtTheMoment,
+    _test_injectSymbolsAlreadyUsed,
 } = generatePairCards;
 
 
@@ -104,7 +105,7 @@ const createUpToDesiredNrOfBlankCards_TC = [
 ]
 
 
-
+const cardForTestingIfTheSameCardInstanceIsChosen = [2, 31, 32, 33, 34, 35]
 const checkIfAnyCardHasSymbolAAndAnyOtherSymbo_TC = [
     {
         mockData: {},
@@ -112,11 +113,12 @@ const checkIfAnyCardHasSymbolAAndAnyOtherSymbo_TC = [
             cardsAlreadyCreated: [
                 [1, 2, 3, 4, 5, 6],
                 [1, 7, 8, 9, 10, 11],
-                [2, 12, 13, 14, 15, 16]
+                [2, 12, 13, 14, 15, 16],
             ],
             cardsCreatedAtTheMoment: [
                 [2, 4, 12, 17, 18],
-                [2, 3, 8, 19, 20]
+                [2, 3, 8, 19, 20],
+                cardForTestingIfTheSameCardInstanceIsChosen,
             ]
         },
         input: {symbolA: 2, cardToTakeSymbolsFrom: [2, 21, 22, 23]},
@@ -151,6 +153,54 @@ const checkIfAnyCardHasSymbolAAndAnyOtherSymbo_TC = [
         testedFunction: (notAplicable, beforeEachData) => {
             return beforeEachData.testedInstance.checkIfAnyCardHasSymbolAAndAnyOtherSymbol;
         }
+    },
+    {
+        input: {symbolA: 2, cardToTakeSymbolsFrom: cardForTestingIfTheSameCardInstanceIsChosen},
+        description: 'Should return fase in case all symbols repete, but the same card that is given appears, and no other card has 2 or more repeting symbols',
+        expected: false,
+        testedFunction: (notAplicable, beforeEachData) => {
+            return beforeEachData.testedInstance.checkIfAnyCardHasSymbolAAndAnyOtherSymbol;
+        }
+    }
+]
+
+const fillCardWithSymbol_TC = [
+    {
+        mockData: {
+            symbolsAlreadyUsed: [1, 2],
+        },
+        beforeEachData: {
+            cardsAlreadyCreated: [
+                [1, 2, 3, 4, 5, 6],
+                [1, 7, 8, 9, 10, 11],
+                [2, 12, 13, 14, 15, 16]
+            ],
+            cardsCreatedAtTheMoment: [
+                [2, 4, 12, 17, 18],
+                [2, 3, 8, 19, 20]
+            ],
+            symbols: Array(25).fill().map((_, index) => index)
+        },
+        input: [2],
+        description: 'Should return false in case given card does not have >=2 common symbols with other cards',
+        expected: false,
+        beforeEach: ({cardsAlreadyCreated, cardsCreatedAtTheMoment, symbols}) => {
+            const testedObject = new generatePairCards({
+                nrOfCards: 10,
+                nrOfSymbolsOnACard: 6,
+                nrOfSymbols: 25
+            });
+            testedObject._test_injectCardsAlreadyCreated(cardsAlreadyCreated);
+            testedObject._test_injectCardsCreated(cardsCreatedAtTheMoment);
+            testedObject._test_injectSymbols(symbols)
+            return {testedInstance: testedObject};
+        },
+        testedFunction: (mockData, beforeEachData) => {
+            const injectSymbolsFunction = beforeEachData.testedInstance._test_injectSymbolsAlreadyUsed;
+            console.log(beforeEachData.testedInstance)
+            injectSymbolsFunction(mockData.symbolsAlreadyUsed);
+            return beforeEachData.testedInstance.fillCardWithSymbol;
+        }
     }
 ]
 
@@ -158,4 +208,5 @@ export {
     countCardsContainingSymbol_TC,
     createUpToDesiredNrOfBlankCards_TC,
     checkIfAnyCardHasSymbolAAndAnyOtherSymbo_TC,
+    fillCardWithSymbol_TC
 }
