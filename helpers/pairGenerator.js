@@ -43,7 +43,6 @@ export default function generatePairCards({nrOfCards, nrOfSymbolsOnACard, nrOfSy
         for (let c = nrOfCardsToCreate; c > 0; c--) {
             cardsCreatedAtTheMoment.push(firstSymbol);
         }
-        console.log(nrOfCardsToCreate)
     }
 
     function checkIfCardHasTwoSymbols(symbolA, symbolB, card){
@@ -54,6 +53,7 @@ export default function generatePairCards({nrOfCards, nrOfSymbolsOnACard, nrOfSy
     }
 
     function checkIfCardsHaveSymbolAAndOtherRepetingSymbol(cardToCheckIn, cardToTakeSymbolsFrom, symbolA) {
+        console.log(cardToCheckIn)
         if (!cardToCheckIn.find(symbol => symbol === symbolA)) return false;
         for(let symbol of cardToTakeSymbolsFrom) {
             if (symbol !== symbolA) {
@@ -63,15 +63,20 @@ export default function generatePairCards({nrOfCards, nrOfSymbolsOnACard, nrOfSy
         return false;
     }
 
-    function checkIfAnyCardHasSymbolAAndAnyOtherSymbol(symbolA, cardToTakeSymbolsFrom){
-        for(let card of cardsAlreadyCreated){
-            if (cardToTakeSymbolsFrom !== card){
-                if (checkIfCardsHaveSymbolAAndOtherRepetingSymbol(card, cardToTakeSymbolsFrom, symbolA)) return true;
+    function checkIfAnyCardHasSymbolAAndAnyOtherSymbol({symbolA, cardToTakeSymbolsFrom}){
+        if (cardsAlreadyCreated.length > 0){
+            for(let card of cardsAlreadyCreated){
+                if (cardToTakeSymbolsFrom !== card){
+                    if (checkIfCardsHaveSymbolAAndOtherRepetingSymbol(card, cardToTakeSymbolsFrom, symbolA)) return true;
+                }
             }
         }
-        for(let card of cardsCreatedAtTheMoment){
-            if (cardToTakeSymbolsFrom !== card){
-                if (checkIfCardsHaveSymbolAAndOtherRepetingSymbol(card, cardToTakeSymbolsFrom, symbolA)) return true;
+        if (cardsCreatedAtTheMoment.length > 0) {
+            console.log(cardsCreatedAtTheMoment)
+            for(let card of cardsCreatedAtTheMoment){
+                if (cardToTakeSymbolsFrom !== card){
+                    if (checkIfCardsHaveSymbolAAndOtherRepetingSymbol(card, cardToTakeSymbolsFrom, symbolA)) return true;
+                }
             }
         }
         return false;
