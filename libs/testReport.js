@@ -15,7 +15,6 @@ class TestReport {
         if (!matcher) matcher = (a, b) => a === b;
         testCases.forEach(testCase => {
             const beforeEachContext = beforeEach(testCases[0].beforeEachData);
-            console.log(beforeEachContext)
             const tf = testedFunction === undefined ? testCase.testedFunction(testCase.mockData, beforeEachContext):testedFunction(testCases.mockData, beforeEachContext)
             const actualResult = tf(testCase.input);
             this.testResults.push({

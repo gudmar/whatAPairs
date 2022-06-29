@@ -135,17 +135,23 @@ const checkIfAnyCardHasSymbolAAndAnyOtherSymbo_TC = [
         testedFunction: (notAplicable, beforeEachData) => {
             return beforeEachData.testedInstance.checkIfAnyCardHasSymbolAAndAnyOtherSymbol;
         }
-        // testedFunction: ({cardsAlreadyCreated, cardsCreatedAtTheMoment}) => {
-        //     const testedObject = new generatePairCards({
-        //         nrOfCards: 10,
-        //         nrOfSymbolsOnACard: 6,
-        //         nrOfSymbols: 25
-        //     });
-        //     testedObject._test_injectCardsAlreadyCreated(cardsAlreadyCreated);
-        //     testedObject._test_injectCardsCreated(cardsCreatedAtTheMoment);
-        //     return testedObject.checkIfAnyCardHasSymbolAAndAnyOtherSymbol;
-        // }
     },
+    {
+        input: {symbolA: 2, cardToTakeSymbolsFrom: [2, 21, 22, 19]},
+        description: 'Should return true in case 2 symbols repete on a given card and another card in cardsCreatedAtTheMoment',
+        expected: true,
+        testedFunction: (notAplicable, beforeEachData) => {
+            return beforeEachData.testedInstance.checkIfAnyCardHasSymbolAAndAnyOtherSymbol;
+        }
+    },
+    {
+        input: {symbolA: 2, cardToTakeSymbolsFrom: [2, 21, 12, 23]},
+        description: 'Should return true in case 2 symbols repete on a given card and another card in cardsAlreadyCreated',
+        expected: true,
+        testedFunction: (notAplicable, beforeEachData) => {
+            return beforeEachData.testedInstance.checkIfAnyCardHasSymbolAAndAnyOtherSymbol;
+        }
+    }
 ]
 
 export {
