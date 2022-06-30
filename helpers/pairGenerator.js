@@ -34,7 +34,12 @@ export default function generatePairCards({nrOfCards, nrOfSymbolsOnACard, nrOfSy
     }
 
     function takeASymbolForFilling() {
-        if (symbols.length - 1 === indexOfLastSymbolUsedToFill) throw new Error('Symbols for filling already used, this instance will not work')
+        if (symbols.length - 1 === indexOfLastSymbolUsedToFill) {
+            console.log('Produced cards', cardsAlreadyCreated, cardsCreatedAtTheMoment);
+            console.log('symbols', symbols)
+            throw new Error('Symbols for filling already used, this instance will not work')
+        }
+        if (indexOfLastSymbolUsedToFill <= 0) indexOfLastSymbolUsedToFill = 0;
         indexOfLastSymbolUsedToFill++;
         return symbols[indexOfLastSymbolUsedToFill];
     }
@@ -54,7 +59,6 @@ export default function generatePairCards({nrOfCards, nrOfSymbolsOnACard, nrOfSy
     }
 
     function checkIfCardsHaveSymbolAAndOtherRepetingSymbol(cardToCheckIn, cardToTakeSymbolsFrom, symbolA) {
-        console.log(cardToCheckIn)
         if (!cardToCheckIn.find(symbol => symbol === symbolA)) return false;
         for(let symbol of cardToTakeSymbolsFrom) {
             if (symbol !== symbolA) {
@@ -68,14 +72,20 @@ export default function generatePairCards({nrOfCards, nrOfSymbolsOnACard, nrOfSy
         if (cardsAlreadyCreated.length > 0){
             for(let card of cardsAlreadyCreated){
                 if (cardToTakeSymbolsFrom !== card){
-                    if (checkIfCardsHaveSymbolAAndOtherRepetingSymbol(card, cardToTakeSymbolsFrom, symbolA)) return true;
+                    if (checkIfCardsHaveSymbolAAndOtherRepetingSymbol(card, cardToTakeSymbolsFrom, symbolA)) {
+                        console.log(card, cardToTakeSymbolsFrom, symbolA)
+                        return true;
+                    }
                 }
             }
         }
         if (cardsCreatedAtTheMoment.length > 0) {
             for(let card of cardsCreatedAtTheMoment){
                 if (cardToTakeSymbolsFrom !== card){
-                    if (checkIfCardsHaveSymbolAAndOtherRepetingSymbol(card, cardToTakeSymbolsFrom, symbolA)) return true;
+                    if (checkIfCardsHaveSymbolAAndOtherRepetingSymbol(card, cardToTakeSymbolsFrom, symbolA)) {
+                        console.log(card, cardToTakeSymbolsFrom, symbolA)
+                        return true;
+                    }
                 }
             }
         }
@@ -87,10 +97,13 @@ export default function generatePairCards({nrOfCards, nrOfSymbolsOnACard, nrOfSy
         let symbolSuccessfullyChosen = false;
         do {
             const newSymbol = takeASymbolForFilling();
+            console.log(newSymbol)
             card.push(newSymbol);
             symbolSuccessfullyChosen = !checkIfAnyCardHasSymbolAAndAnyOtherSymbol(newSymbol, card);
+             console.log(symbolSuccessfullyChosen)
+            //  debugger
             if(!symbolSuccessfullyChosen) card.pop();
-        } while (symbolSuccessfullyChosen);
+        } while (!symbolSuccessfullyChosen);
         return card; // return statement just for testing
     }
 
