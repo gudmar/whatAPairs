@@ -1,4 +1,5 @@
-import generatePairCards from '../helpers/pairGenerator.js'
+import generatePairCards from '../helpers/pairGenerator.js';
+import { arraysHaveSamePrimitiveElements } from '../libs/testMatchers.js';
 
 // countCardsContainingSymbol(symbol)
 const {
@@ -200,7 +201,8 @@ const fillCardWithSymbol_TC = [
             console.log(beforeEachData.testedInstance)
             injectSymbolsFunction(mockData.symbolsAlreadyUsed);
             return beforeEachData.testedInstance.fillCardWithSymbol;
-        }
+        },
+        matcher: arraysHaveSamePrimitiveElements
     }
 ]
 
