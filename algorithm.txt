@@ -7,6 +7,73 @@ Zmienne:
   arrOfCards = [ 1 ... 31 ]
   
   
+symbolGroup: group of cards created for one of nrOfSymbolsOnCard. In our case there are 6 symbolGroups:
+
+1     1
+2     1
+3     1
+4     1
+5     1
+6     1   2
+7         2
+8         2
+9         2
+10        2
+11        2   3
+12            3
+13            3
+14            3
+15            3
+16            3   4
+17                4
+18                4
+19                4
+20                4
+21                4   5
+22                    5
+23                    5
+24                    5
+25                    5
+26                    5   6
+27                        6
+28                        6
+29                        6
+30                        6
+31                        6
+
+So in our case groups consist of cards with specificCardSymbols: 1, 2, 3, 4, 5, 6.
+Cards with specificCardSymbol 1 are: 
+1     1
+2     1
+3     1
+4     1
+5     1
+6     1   2
+
+cards for specificCardSymbol 2 are:
+
+6     1   2
+7         2
+8         2
+9         2
+10        2
+11        2   3
+
+so some cards are common for 2 groups
+
+const getSpecificCardSymbolGroup = (cardsArr, symbolNr) => {
+	if (symbolNr === 1) return cardsArr.slice(0, nrOfSymbolsOnCard);
+	return cardsArr.slice(nrOfSymbols * (symbolNr - 1) - 1, nrOfSymbols * symbolNr - 1);
+}
+
+Adding symbols to cards:
+
+currentCardGroup = 1;
+nextPossibleSymbol => {
+	if (currentCardGroup === 1) return 3;
+	if (currentCardGroup === cardGroups.length) return currentCardGroup + 1;
+
+10. Take a card, and push 
 
 
 Creation of initial cards:
@@ -16,6 +83,7 @@ Creation of initial cards:
 40. Push newly increased startingSymbol to last card created with previous starting symbol
 50. Create nrOfSymbolsOnCard - 1 cards with present startingSymbol
 60. Repete from step 30 until cards are created for symbol (nrOfSymbolsOnCard).
+70. Fill connectiosArray
 
 
 Create connectionsArray
@@ -29,4 +97,6 @@ const addConnection = (connectionArray, fromSymbol, toSymbol) => {
 	connectionArray[fromSymbol][toSymbol] = toSymbol
 	connectionArray[toSymbol][fromSymbol] = fromSymbol
 }
+
+const 
 	
