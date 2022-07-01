@@ -69,11 +69,14 @@ export default function generatePairCards({nrOfCards, nrOfSymbolsOnACard, nrOfSy
     }
 
     function checkIfAnyCardHasSymbolAAndAnyOtherSymbol({symbolA, cardToTakeSymbolsFrom}){
+        // True if >=2 symbols repete in cards
         if (cardsAlreadyCreated.length > 0){
             for(let card of cardsAlreadyCreated){
                 if (cardToTakeSymbolsFrom !== card){
+                    debugger
                     if (checkIfCardsHaveSymbolAAndOtherRepetingSymbol(card, cardToTakeSymbolsFrom, symbolA)) {
                         console.log(card, cardToTakeSymbolsFrom, symbolA)
+                        debugger;
                         return true;
                     }
                 }
@@ -88,6 +91,7 @@ export default function generatePairCards({nrOfCards, nrOfSymbolsOnACard, nrOfSy
                     }
                 }
             }
+            debugger
         }
         return false;
     }
