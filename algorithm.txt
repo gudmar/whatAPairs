@@ -1,0 +1,32 @@
+Zmienne:
+  nrOfSymbolsOnCard = 6
+  nrOfCards = 31
+  nrOfSymbols = 31
+  
+  arrOfSymbols = [ 1 ... 31 ]
+  arrOfCards = [ 1 ... 31 ]
+  
+  
+
+
+Creation of initial cards:
+10. Set startingSymbol as 1
+20. Create nrOfSymbolsOnCard cards with starting startingSymbol
+30. Increase startingSymbol by 1
+40. Push newly increased startingSymbol to last card created with previous starting symbol
+50. Create nrOfSymbolsOnCard - 1 cards with present startingSymbol
+60. Repete from step 30 until cards are created for symbol (nrOfSymbolsOnCard).
+
+
+Create connectionsArray
+
+const createArrayOfNumberOfElemets = (nr, element) => Array(nr).fill().map( _ => element);
+const createArrayConnections = (nrOfCards) => createArrayOfNumberOfElements(nrOfCards, createArrayOfNumberOfElements(nrOfCards, undefined));
+
+Add connection between cards to connectionArray
+
+const addConnection = (connectionArray, fromSymbol, toSymbol) => {
+	connectionArray[fromSymbol][toSymbol] = toSymbol
+	connectionArray[toSymbol][fromSymbol] = fromSymbol
+}
+	
