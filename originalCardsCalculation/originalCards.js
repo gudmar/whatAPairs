@@ -158,21 +158,21 @@ function printOriginalCards(){
     console.dir(countCards())
 }
 
-function performOperationForEachSymbol(originalCards, callback) {
-    let calclatedValue = undefined;
+function performOperationForEachSymbol(cards, callback) {
+    let calculatedValue = undefined;
     cards.forEach((card, cardIndex) => {
         card.forEach((symbol, symbolIndex) => {
             calculatedValue = callback({card, cardIndex, symbol, symbolIndex})
         })
     })
-    return calclatedValue;
+    return calculatedValue;
 }
 
 function createMapping(originalCards) {
     const mapping = {};
     let index = 1;
     const mapCards = ({card, symbol}) => {
-        if (mapping[symbol] !== undefined) {
+        if (mapping[symbol] === undefined) {
             mapping[symbol] = index;
             index++;
         }
@@ -184,51 +184,52 @@ function createMapping(originalCards) {
 function createArrayOfItems(nrOfItems, itemToSet) {
     return Array(nrOfItems).fill().map((_) => itemToSet);
 }
+function create2DimArray(i, j, calculateItem = () => undefined) {
+    const arr = [];
+    function createVector(i, j){
+        const v = [];
+        for(let index = 0; index < i; index++){v.push(calculateItem(i, j))}
+        return v
+    }
+    for (let index = 0; index < j; index++){
+        arr.push(createVector(i,j))
+    }
+    return arr
+}
 
 function mapWordsToNumbers(originalCards) {
     const mappingDictionary = createMapping(originalCards);
-    const mapped = createArrayOfItems(31, createArrayOfItems(6, undefined))
+    const mapped = create2DimArray(6, 31)
     const mapFunction = ({card, cardIndex, symbol, symbolIndex}) => {
         const wordSymbol = originalCards[cardIndex][symbolIndex];
         const digitSymbol = mappingDictionary[wordSymbol];
         mapped[cardIndex][symbolIndex] = digitSymbol;
     }
-    return performOperationForEachSymbol(mapFunction);
+    performOperationForEachSymbol(originalCards, mapFunction);
+    return mapped;
 }
 
 function createCardComponent(symbolsArr) {
-    function createSymbol(symbol){
-        const template = {
-            type: basicHTMLElementTypes.TD,
-            params: [
-                {
-                    innerText: symbol
-                }
-            ]
+        return {
+            type: basicHTMLElementTypes.TR,
+            children: symbolsArr.map(
+                symbol => ({
+                    type: basicHTMLElementTypes.TD,
+                    params: {
+                            innerText: symbol,
+                        }
+                    
+                })
+            )
         }
-        return template;
     }
-    function createSymbols(symbolsArr) {
-        return symbolsArr.map(symbol => {
-            return {
-                type: basicHTMLElementTypes.TR,
-                children: [createSymbol(symbol)]
-            }
-        })
-    }
-    const template = {
-        type: basicHTMLElementTypes.TR,
-        children: createSymbols(symbolsArr)
-    }
-    console.log(template)
-    return template;
-}
 
-function cardsPresentationComponent(cardsArr = cards){
+function cardsPresentationComponent(cardsArr = mapWordsToNumbers(cards.map(card => card.content))){
     const componentCreator = new ComponentCreator();
-    const _children = cardsArr.map((card) => {
-        createCardComponent(card.content)
-    })
+    const _children = cardsArr.map((card) => 
+        createCardComponent(card)
+        // createCardComponent(card.content)
+    )
     const template = {
         type: basicHTMLElementTypes.TABLE,
         children: [
@@ -238,7 +239,6 @@ function cardsPresentationComponent(cardsArr = cards){
             }
         ]
     }
-    console.log(template)
     return componentCreator.createAComponent(template)
 }
 
