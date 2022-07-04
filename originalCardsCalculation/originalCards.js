@@ -1,3 +1,6 @@
+import ComponentCreator from "../libs/createAComponent.js";
+import basicHTMLElementTypes from "../libs/basicElementTypes.js";
+
 const cards = [
     {
        content: ['sierp', 'kogut', 'studnia', 'kaczka', 'kura', 'strach'],
@@ -155,4 +158,92 @@ function printOriginalCards(){
     console.dir(countCards())
 }
 
-export default printOriginalCards;
+function performOperationForEachSymbol(originalCards, callback) {
+    let calclatedValue = undefined;
+    cards.forEach((card, cardIndex) => {
+        card.forEach((symbol, symbolIndex) => {
+            calculatedValue = callback({card, cardIndex, symbol, symbolIndex})
+        })
+    })
+    return calclatedValue;
+}
+
+function createMapping(originalCards) {
+    const mapping = {};
+    let index = 1;
+    const mapCards = ({card, symbol}) => {
+        if (mapping[symbol] !== undefined) {
+            mapping[symbol] = index;
+            index++;
+        }
+        return mapping
+    }
+    return performOperationForEachSymbol(originalCards, mapCards);
+}
+
+function createArrayOfItems(nrOfItems, itemToSet) {
+    return Array(nrOfItems).fill().map((_) => itemToSet);
+}
+
+function mapWordsToNumbers(originalCards) {
+    const mappingDictionary = createMapping(originalCards);
+    const mapped = createArrayOfItems(31, createArrayOfItems(6, undefined))
+    const mapFunction = ({card, cardIndex, symbol, symbolIndex}) => {
+        const wordSymbol = originalCards[cardIndex][symbolIndex];
+        const digitSymbol = mappingDictionary[wordSymbol];
+        mapped[cardIndex][symbolIndex] = digitSymbol;
+    }
+    return performOperationForEachSymbol(mapFunction);
+}
+
+function createCardComponent(symbolsArr) {
+    function createSymbol(symbol){
+        const template = {
+            type: basicHTMLElementTypes.TD,
+            params: [
+                {
+                    innerText: symbol
+                }
+            ]
+        }
+        return template;
+    }
+    function createSymbols(symbolsArr) {
+        return symbolsArr.map(symbol => {
+            return {
+                type: basicHTMLElementTypes.TR,
+                children: [createSymbol(symbol)]
+            }
+        })
+    }
+    const template = {
+        type: basicHTMLElementTypes.TR,
+        children: createSymbols(symbolsArr)
+    }
+    console.log(template)
+    return template;
+}
+
+function cardsPresentationComponent(cardsArr = cards){
+    const componentCreator = new ComponentCreator();
+    const _children = cardsArr.map((card) => {
+        createCardComponent(card.content)
+    })
+    const template = {
+        type: basicHTMLElementTypes.TABLE,
+        children: [
+            {
+                type: basicHTMLElementTypes.TBODY,
+                children: _children
+            }
+        ]
+    }
+    console.log(template)
+    return componentCreator.createAComponent(template)
+}
+
+
+export {
+    printOriginalCards,
+    cardsPresentationComponent,
+}
