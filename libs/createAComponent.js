@@ -18,9 +18,7 @@ class ComponentCreator {
         }
         const element = this.htmlElementCreator.createBasicHTMLElement(type, params);
         if (children === undefined) return element;
-        console.log(children)
         children.forEach((child) => {
-            console.log(child)
             element.appendChild(this.createAComponent(child, child.handlers))
         })
         return element;
