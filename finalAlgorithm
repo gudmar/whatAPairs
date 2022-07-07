@@ -131,8 +131,297 @@ Lets add a card to our sollution:
 6)  3   6   7
 7)  4
 connected cards: [3, 4]
+restricted symbols: [1, 2, 3, 4, 6]
 
+Lets connect first possible card with first not banned symbol. That is 1st card with 5th symbol:
+1)  1   3   5
+2)  1   2   7
+3)  3   2   4
+4)  1   4   6
+5)  2   5   6
+6)  3   6   7
+7)  4   5
+connected cards: [1, 3, 4, 5]
+restricted symbols: [1, 2, 3, 4, 5, 6]
+
+First not restricted symbol is 7. Lets connect second card with it:
+1)  1   3   5
+2)  1   2   7
+3)  3   2   4
+4)  1   4   6
+5)  2   5   6
+6)  3   6   7
+7)  4   5   7
+connected cards: [1, 2, 3, 4, 5, 6]
+restricted symbols: [1, 2, 3, 4, 5, 6, 7]
  
+Wow. I did not expect that either :o. Another sollution where I thought it will 
+not occure... Lets count symbol occurences:
+
+symbol    occurences
+  1           3
+  2           3
+  3           3
+  4           3
+  5           3
+  6           3
+  7           3
+
+Now. This is a full sollution. All symbols repete the same ammount of 
+times. So it is not true that number of symbols on a card have to be 
+even.
+
+
+===================================
+
+Lets think how to extend this algorithm to 4 symbols:
+
+Algorithm has to be started from the begining. In this case all symbols appeared
+3 times. In next instance, each symbol will appear 4 times, so we will start
+from 1.
+
+Lets add a new card:
+1)  1   3   5
+2)  1   2   7
+3)  3   2   4
+4)  1   4   6
+5)  2   5   6
+6)  3   6   7
+7)  4   5   7
+8)  1  
+connected cards: [1, 2, 4]
+restricted symbols: [1, 2, 3, 4, 5, 6, 7]
+
+To add new card to existing cards new symbols are needed:
+1)  1   3   5
+2)  1   2   7
+3)  3   2   4  8
+4)  1   4   6
+5)  2   5   6
+6)  3   6   7
+7)  4   5   7
+8)  1   8
+connected cards: [1, 2, 3, 4]
+restricted symbols: [1, 2, 3, 4, 5, 6, 7, 8]
+
+1)  1   3   5
+2)  1   2   7
+3)  3   2   4  8
+4)  1   4   6
+5)  2   5   6  9
+6)  3   6   7
+7)  4   5   7
+8)  1   8   9
+connected cards: [1, 2, 3, 4, 5]
+restricted symbols: [1, 2, 3, 4, 5, 6, 7, 8, 9]
+
+1)  1   3   5
+2)  1   2   7
+3)  3   2   4  8
+4)  1   4   6
+5)  2   5   6  9
+6)  3   6   7  A
+7)  4   5   7
+8)  1   8   9  A
+connected cards: [1, 2, 3, 4, 5, 6]
+restricted symbols: [1, 2, 3, 4, 5, 6, 7, 8, 9, A]
+
+
+
+============================
+============================
+One not connecetd card. Lests experiment:
+
+Lets add a next card and see if more will match. Because we sould not add extra symbol?
+
+1)  1   3   5
+2)  1   2   7
+3)  3   2   4  8
+4)  1   4   6
+5)  2   5   6  9
+6)  3   6   7  A
+7)  4   5   7
+8)  1   8   9  A
+9)  2   
+connected cards: [2, 3, 5]
+restricted symbols: [1, 2, 3, 4, 5, 6, 7, 8, 9]
+
+Lets add another free symbol, and see what is connected:
+
+1)  1   3   5
+2)  1   2   7
+3)  3   2   4  8
+4)  1   4   6
+5)  2   5   6  9
+6)  3   6   7  A
+7)  4   5   7
+8)  1   8   9  A
+9)  2   A  
+connected cards: [2, 3, 5, 6, 8]
+restricted symbols: [1, 2, 3, 4, 5, 6, 7, 8, 9, A]
+
+Lets add another free symbol: B
+
+1)  1   3   5  B
+2)  1   2   7
+3)  3   2   4  8
+4)  1   4   6
+5)  2   5   6  9
+6)  3   6   7  A
+7)  4   5   7
+8)  1   8   9  A
+9)  2   A  
+connected cards: [1, 2, 3, 5, 6, 8]
+restricted symbols: [1, 2, 3, 4, 5, 6, 7, 8, 9, A, B]
+
+Lets add another free symbol: C
+
+1)  1   3   5  B
+2)  1   2   7
+3)  3   2   4  8
+4)  1   4   6  C
+5)  2   5   6  9
+6)  3   6   7  A
+7)  4   5   7
+8)  1   8   9  A
+9)  2   A  
+connected cards: [1, 2, 3, 4, 5, 6, 8]
+restricted symbols: [1, 2, 3, 4, 5, 6, 7, 8, 9, A, B, C]
+
+Still 7 card is not connected. Lets add a 'D' symbol:
+
+1)  1   3   5  B
+2)  1   2   7
+3)  3   2   4  8
+4)  1   4   6  C
+5)  2   5   6  9
+6)  3   6   7  A
+7)  4   5   7  D
+8)  1   8   9  A
+9)  2   A   D
+connected cards: [1, 2, 3, 4, 5, 6, 7, 8]
+restricted symbols: [1, 2, 3, 4, 5, 6, 7, 8, 9, A, B, C, D]
+
+
+Lets add a new card:
+
+1)  1   3   5  B
+2)  1   2   7
+3)  3   2   4  8
+4)  1   4   6  C
+5)  2   5   6  9
+6)  3   6   7  A
+7)  4   5   7  D
+8)  1   8   9  A
+9)  2   A   D
+10) 3
+connected cards: [1, 3, 6 ]
+restricted symbols: [1, 2, 3, 4, 5, 6, 7, 8, B]
+
+lets connect 2 card with symbol 9
+
+1)  1   3   5  B
+2)  1   2   7  9
+3)  3   2   4  8
+4)  1   4   6  C
+5)  2   5   6  9
+6)  3   6   7  A
+7)  4   5   7  D
+8)  1   8   9  A
+9)  2   A   D
+10) 3   9
+connected cards: [1, 2, 3, 5, 6, 8 ]
+restricted symbols: [1, 2, 3, 4, 5, 6, 7, 8, 9, A, B]
+
+lets connect 4th card with symbol C
+
+1)  1   3   5  B
+2)  1   2   7  9
+3)  3   2   4  8
+4)  1   4   6  C
+5)  2   5   6  9
+6)  3   6   7  A
+7)  4   5   7  D
+8)  1   8   9  A
+9)  2   A   D
+10) 3   9   C
+connected cards: [1, 2, 3, 4, 5, 6, 8 ]
+restricted symbols: [1, 2, 3, 4, 5, 6, 7, 8, 9, A, B, C]
+
+Lets connect card 7 with symbol D
+
+1)  1   3   5  B
+2)  1   2   7  9
+3)  3   2   4  8
+4)  1   4   6  C
+5)  2   5   6  9
+6)  3   6   7  A
+7)  4   5   7  D
+8)  1   8   9  A
+9)  2   A   D
+10) 3   9   C
+connected cards: [1, 2, 3, 4, 5, 6, 7, 8, 9 ]
+restricted symbols: [1, 2, 3, 4, 5, 6, 7, 8, 9, A, B, C, D]
+
+All cards are connected. Lets add next card:
+
+1)  1   3   5  B
+2)  1   2   7  9
+3)  3   2   4  8
+4)  1   4   6  C
+5)  2   5   6  9
+6)  3   6   7  A
+7)  4   5   7  D
+8)  1   8   9  A
+9)  2   A   D
+10) 3   9   C
+11) 4   
+connected cards: [3, 4, 7]
+restricted symbols: [1, 2, 3, 4, 5, 6, 7, 8, C, D]
+
+We should connect first possible card (1) with first possible symbol (B)
+
+1)  1   3   5  B
+2)  1   2   7  9
+3)  3   2   4  8
+4)  1   4   6  C
+5)  2   5   6  9
+6)  3   6   7  A
+7)  4   5   7  D
+8)  1   8   9  A
+9)  2   A   D
+10) 3   9   C
+11) 4   B
+connected cards: [1, 3, 4, 7]
+restricted symbols: [1, 2, 3, 4, 5, 6, 7, 8, B, C, D]
+
+Lets connect first possible card with first possible symbol (2 card with 9, as 9 is already in card 2)
+On the way cards 5, 8 and 10 will be added.
+
+1)  1   3   5  B
+2)  1   2   7  9
+3)  3   2   4  8
+4)  1   4   6  C
+5)  2   5   6  9
+6)  3   6   7  A
+7)  4   5   7  D
+8)  1   8   9  A
+9)  2   A   D
+10) 3   9   C
+11) 4   B   9
+connected cards: [1, 2, 3, 4, 5, 7, 8, 10]
+restricted symbols: [1, 2, 3, 4, 5, 6, 7, 8, 9, B, C, D]
+
+CARDS 2 AND 5: 9 and 2 symbols repete
+
+NOW this is strange !! as 9 repetes 5 times !! And 6 is not connected and if 
+6 is connected with the only possible (A), 9 and 2 symbols 
+
+
+
+
+
+
 
 
 
