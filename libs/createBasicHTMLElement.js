@@ -5,7 +5,6 @@ class BasicHTMLElementCreator {
 
     }
     createBasicHTMLElement(type, params){
-        console.log(params)
         let newElement = null;
         try{
             newElement = document.createElement(type)

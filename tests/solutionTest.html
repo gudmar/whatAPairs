@@ -16,19 +16,32 @@
     import TestReport from '../libs/testReport.js';
     import Injector from '../libs/injector.js';
     import BasicHTMLElementCreator from '../libs/createBasicHTMLElement.js'
-    import generatePairCards from '../helpers/pairGenerator.js'
+    import {
+        isSolutionValid,
+        notValidCards,
+        notValidCardsAboveIndex,
+        haveCardsInSolutionUniqueSymbols,
+        commonSymbolsBetweenArrays,
+        areElementsOfArrayUnique, 
+    } from '../helpers/solutionValidator.js'
+    import {
+        areElementsOfArrayUnique_TC,
+        commonSymbolsBetweenArrays_TC,
+        haveCardsInSolutionUniqueSymbols_TC    
+    } from './solutionTest.js'
+
     (function() {
         window.addEventListener('DOMContentLoaded', () => {
             const htmlCreator = new BasicHTMLElementCreator();
             const testExecutor = new TestReport();
             const injector = new Injector();
 
-            const testReport_countCardsContainingSymbol = testExecutor.getTestReport({
-                testCases: countCardsContainingSymbol_TC,
-                title: 'countCardsContainingSymbol'
+            const testReport_areElementsOfArrayUnique = testExecutor.getTestReport({
+                testCases: areElementsOfArrayUnique_TC,
+                title: 'areElementsOfArrayUnique'
             });
-            injector.inject(htmlCreator.createBasicHTMLElement('h3',[{innerText: 'countCardsContainingSymbol'}]))
-            injector.inject(testReport_countCardsContainingSymbol)
+            injector.inject(htmlCreator.createBasicHTMLElement('h3',[{innerText: 'areElementsOfArrayUnique'}]))
+            injector.inject(testReport_areElementsOfArrayUnique)
         })
     })()
 </script>
