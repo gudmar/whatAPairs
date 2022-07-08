@@ -3,24 +3,61 @@ const countElementsOfArray = (arr) =>{
        if (acc[item] === undefined) {
            acc[item] = 1;
        } else {
-           acc[item] =+ 1;
+           acc[item] += 1;
        }
        return acc;
    }, {})
 }
 
+class ArrayElementsCounter {
+    constructor(arr){
+        this.mapObj = new Map();
+        arr.forEach(item => this.mapObj.has(item) ? this.mapObj.set(item, this.mapObj.get(item) + 1):this.mapObj.set(item, 1));
+    }
+    log() {
+        const output = [];
+        this.mapObj.forEach((value, key) => output.push([key, value]))
+        console.log(output);
+    }
+    keys(){
+        const output = [];
+        const keys = this.mapObj.keys();
+        for(let key of keys) {
+            output.push(key)
+        }
+        return output
+    }
+    values() {
+        const output = [];
+        const values = this.mapObj.values();
+        for(let val of values) {
+            output.push(val)
+        }
+        return output        
+    }
+    get(key) {
+        return this.mapObj.get(key);
+    }
+}
+
 const areElementsOfArrayUnique = (arr) => {
-   const countedElements = countElementsOfArray(arr)
-   const values = Object.values(countedElements)
-   return !values.some(item => item > 1)
+    const countedElements = new ArrayElementsCounter(arr);
+    countedElements.log();
+    const values = countedElements.values();
+    return !values.some(item => item > 1)
 }
 
 const commonSymbolsBetweenArrays = (arr1, arr2) => {
-   const joinedArrays = [...arr1, ...arr2];
-   const countedElements = countElementsOfArray(joinedArrays);
-   const elementsFromBothArrays = Object.keys(countedElements);
-   return elementsFromBothArrays.filter(element => countedElements[element] > 1);
+    
+    const joinedArrays = [...arr1, ...arr2];
+    const countedElements = new ArrayElementsCounter(joinedArrays);
+    const keysFromBothArrays = countedElements.keys();
+    countedElements.log();
+    console.log(keysFromBothArrays.filter(key => countedElements.get(key) > 1))
+    return keysFromBothArrays.filter(key => countedElements.get(key) > 1);
 }
+ 
+// CORRECT BELOW USING NEW ArrayElementsCounter
 
 const haveCardsInSolutionUniqueSymbols = (solution) => {
    return solution.every(card => areElementsOfArrayUnique(card))

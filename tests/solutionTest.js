@@ -19,47 +19,56 @@ const areElementsOfArrayUnique_TC = [
     {
         mockData: [1, 2, 3, 4, 1],
         description: 'Should return false if one element in array repetes',
-        expected: true,
+        expected: false,
         testedFunction: (data) => () => areElementsOfArrayUnique(data)
     }
 ]
 
 const commonSymbolsBetweenArrays_TC = [
     {
-        data: {
+        input: {
             arr1: [1, 2, 3, 4, 5],
             arr2: [6, 7, 8, 9]
         },
         description: 'Should return [] in case there are no common symbols betweeen arrays',
-        testedFunction: (data) => {
+        testedFunction: () => (data) => {
             return commonSymbolsBetweenArrays(data.arr1, data.arr2)
         },
         expected: [],
         matcher: arraysHaveSamePrimitiveElements,
     },
     {
-        data: {
+        input: {
             arr1: [1, 2, 3, 4, 5],
             arr2: [1, 0, 9, 8, 7]
+        },
+        testedFunction: () => (data) => {
+            return commonSymbolsBetweenArrays(data.arr1, data.arr2)
         },
         description: 'Should return [1] in case only 1 repeates in arrays',
         expected: [1],
         matcher: arraysHaveSamePrimitiveElements,
     },
     {
-        data: {
+        input: {
             arr1: [1, 2, 3, 4, 5],
             arr2: [1, 0, 9, 8, 5]
         },
+        testedFunction: () => (data) => {
+            return commonSymbolsBetweenArrays(data.arr1, data.arr2)
+        },        
         description: 'Should return [1, 5] in case only 1 and 5 repeates in arrays',
         expected: [1, 5],
         matcher: arraysHaveSamePrimitiveElements,
     },
     {
-        data: {
+        input: {
             arr1: [1, 2, 3, 4, 5],
             arr2: [1, 2, 3, 4, 5]
         },
+        testedFunction: () => (data) => {
+            return commonSymbolsBetweenArrays(data.arr1, data.arr2)
+        },        
         description: 'Should return [1, 2, 3, 4, 5] in case all elements from both arrays match',
         expected: [1, 2, 3, 4, 5],
         matcher: arraysHaveSamePrimitiveElements,
