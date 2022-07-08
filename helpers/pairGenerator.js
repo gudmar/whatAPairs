@@ -73,10 +73,10 @@ export default function generatePairCards({nrOfCards, nrOfSymbolsOnACard, nrOfSy
         if (cardsAlreadyCreated.length > 0){
             for(let card of cardsAlreadyCreated){
                 if (cardToTakeSymbolsFrom !== card){
-                    debugger
+                    // debugger
                     if (checkIfCardsHaveSymbolAAndOtherRepetingSymbol(card, cardToTakeSymbolsFrom, symbolA)) {
                         console.log(card, cardToTakeSymbolsFrom, symbolA)
-                        debugger;
+                        // debugger;
                         return true;
                     }
                 }

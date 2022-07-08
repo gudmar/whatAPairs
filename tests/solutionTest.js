@@ -7,7 +7,6 @@ import {
     areElementsOfArrayUnique, 
 } from '../helpers/solutionValidator.js';
 import { arraysHaveSamePrimitiveElements } from '../libs/testMatchers.js';
-
 // data, description, expected, testedFunction
 const areElementsOfArrayUnique_TC = [
     {
