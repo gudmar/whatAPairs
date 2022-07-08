@@ -7,13 +7,15 @@ class TestReport {
         this.componentCreator = new ComponentCreator();
     }
      
-    runTests({testCases, testedFunction, matcher, title}) {
+    runTests({testCases, testedFunction, /*matcher,*/ title}) {
         if (!Array.isArray(testCases)) throw new Error('testCases should be an array of test description objects');
         if (testCases.length === 0) return;
         const beforeEach = testCases[0].beforeEach || (() => {});
         console.group(title);
-        if (!matcher) matcher = (a, b) => a === b;
+        // if (!matcher) matcher = (a, b) => a === b;
         testCases.forEach(testCase => {
+            let { matcher } = testCase;
+            if (!matcher) matcher = (a, b) => a === b;
             const beforeEachContext = beforeEach(testCases[0].beforeEachData);
             const tf = testedFunction === undefined ? testCase.testedFunction(testCase.mockData, beforeEachContext):testedFunction(testCases.mockData, beforeEachContext)
             const actualResult = tf(testCase.input);
