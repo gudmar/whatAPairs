@@ -67,7 +67,7 @@ const notValidCardsAboveIndex = (solution, index) => {
    if (solution.length <= index + 1) throw new Error('Given index >= solution.length')
    const cardAtIndex = solution[index];
    const cardsFromIndex = solution.slice(index + 1);
-   cardsFromIndex.reduce((raport, card) => {
+   return cardsFromIndex.reduce((raport, card) => {
        const commonSymbols = commonSymbolsBetweenArrays(cardAtIndex, card);
        if (commonSymbols.length > 1) {
            raport.push({
@@ -93,7 +93,7 @@ const notValidCards = solution => {
    if (!Array.isArray(solution)) throw new Error('notValidCards: solution is not an array')
    if (solution.length < 3) throw new Error('notValidCards: solution should be at least an array of 3 elements')
    const raport = [];
-   for (let index = 0; index < solutoin.length - 1; index++) {
+   for (let index = 0; index < solution.length - 1; index++) {
        const partRaport = notValidCardsAboveIndex(solution, index);
        if (partRaport.length > 0) raport.push(partRaport);
    }

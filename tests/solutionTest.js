@@ -76,30 +76,119 @@ const commonSymbolsBetweenArrays_TC = [
 
 const haveCardsInSolutionUniqueSymbols_TC = [
     {
-        data: [
+        input: [
             [1, 2, 3, 4],
             [1, 2, 3, 4],
             [7, 8, 9, 0]
         ],
         description: 'Should return true in case each array in sollution has unique symbols',
         expected: true,
+        testedFunction: () => input => haveCardsInSolutionUniqueSymbols(input)
     },
     {
-        data: [
+        input: [
             [1, 2, 3, 4],
             [1, 2, 3, 4],
             [7, 8, 9, 7]
         ],
         description: 'Should return false in case an element in one of sollution arrays repeat',
-        expected: true,
+        expected: false,
+        testedFunction: () => input => haveCardsInSolutionUniqueSymbols(input)
+    },    
+]
+
+const notValidCardsAboveIndex_TC = [
+    {
+        input: {
+            index: 0,
+            solution: [
+                [1, 3],
+                [1, 2],
+                [2, 3]
+            ]
+        },
+        description: 'Should return 0 in case all cards have connections, and each symbol repeates only once between cards',
+        expected: 0,
+        testedFunction: () => input => notValidCards(input.solution, input.index).length
     },
-    
+    {
+        input: {
+            index: 0,
+            solution: [
+                [1, 3],
+                [1, 2],
+                [2, 1]
+            ]
+        },
+        description: 'Should return 1 in case one connection is doubled (3x2 instance)',
+        expected: 1,
+        testedFunction: () => input => notValidCards(input.solution, input.index).length
+    },
+    {
+        input: {
+            index: 0,
+            solution: [
+                [1, 3],
+                [1, 2],
+                [2, 3, 4],
+                [1, 4]
+            ]
+        },
+        description: 'Should return 0 in case cards contain different numbers of symbols, but connections are single and exist)',
+        expected: 0,
+        testedFunction: () => input => notValidCards(input.solution, input.index).length
+    },    
+    {
+        input: {
+            index: 0,
+            solution: [
+                [1, 3, 5],
+                [1, 2, 6],
+                [2, 3, 4],
+                [1, 4, 7]
+            ]
+        },
+        description: 'Should return 0 in case cards contain different numbers of symbols, but connections are single and exist, and there are dummy symbols in sollution)',
+        expected: 0,
+        testedFunction: () => input => notValidCards(input.solution, input.index).length
+    },
+    {
+        input: {
+            index: 0,
+            solution: [
+                [1, 3, 5],
+                [1, 2, 6],
+                [1, 2, 6],
+                [1, 2, 6]
+            ]
+        },
+        description: 'Should return 2 in case 2 cards repete)',
+        expected: 2,
+        testedFunction: () => input => notValidCards(input.solution, input.index).length
+    },
+    {
+        input: {
+            index: 2,
+            solution: [
+                [1, 2, 6],
+                [1, 2, 6],
+                [1, 2, 6],
+                [1, 2, 6]
+            ]
+        },
+        description: 'Should return 1 card in case all cards are the same and index is set to last one -1',
+        expected: 1,
+        testedFunction: () => input => notValidCards(input.solution, input.index).length
+    }
+
+
 ]
 
 export {
     areElementsOfArrayUnique_TC,
     commonSymbolsBetweenArrays_TC,
-    haveCardsInSolutionUniqueSymbols_TC    
+    haveCardsInSolutionUniqueSymbols_TC ,
+    notValidCardsAboveIndex_TC,   
 }
 
 
