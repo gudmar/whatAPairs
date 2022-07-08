@@ -10,11 +10,12 @@ function arraysHaveSamePrimitiveElements(arr1, arr2) {
     if (arr1.length !== arr2.length) return false
     const arr1Elements = countElementsOfArray(arr1);
     const arr2Elements = countElementsOfArray(arr2);
-    if (Object.keys(arr1Elements) !== Object.keys(arr2Elements)) return false;
+    if (Object.keys(arr1Elements).length !== Object.keys(arr2Elements).length) return false;
     const nrOfDifferences = arr1Elements.reduce((acc, key) => {
         if (arr1Elements[key] !== arr2Elements[key]) acc += 1;
         return acc;
     }, 0)
+    console.log(arr1, arr2, nrOfDifferences)
     return nrOfDifferences === 0
 }
 
