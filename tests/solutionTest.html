@@ -27,7 +27,9 @@
     import {
         areElementsOfArrayUnique_TC,
         commonSymbolsBetweenArrays_TC,
-        haveCardsInSolutionUniqueSymbols_TC    
+        haveCardsInSolutionUniqueSymbols_TC,
+        notValidCardsAboveIndex_TC,
+        
     } from './solutionTest.js'
 
     (function() {
@@ -52,7 +54,22 @@
             injector.inject(htmlCreator.createBasicHTMLElement('h3',[{innerText: 'commonSYmbolsBetweenArrays'}]))
             injector.inject(testReport_commonSymbolsBetweenArrays)
         
-            
+            testExecutor.clearTestResults();
+            const testReport_haveCardsInSolutionUniqueSymbols = testExecutor.getTestReport({
+                testCases: haveCardsInSolutionUniqueSymbols_TC,
+                title: 'haveCardsInSolutionUniqueSymbols',
+            });
+            injector.inject(htmlCreator.createBasicHTMLElement('h3',[{innerText: 'haveCardsInSolutionUniqueSymbols'}]))
+            injector.inject(testReport_haveCardsInSolutionUniqueSymbols)
+
+            testExecutor.clearTestResults();
+            const testReport_notValidCardsAboveIndex = testExecutor.getTestReport({
+                testCases: notValidCardsAboveIndex_TC,
+                title: 'notValidCardsAboveIndex',
+            });
+            injector.inject(htmlCreator.createBasicHTMLElement('h3',[{innerText: 'notValidCardsAboveIndex'}]))
+            injector.inject(testReport_notValidCardsAboveIndex)
+
 
         })
     })()
