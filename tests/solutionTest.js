@@ -97,87 +97,88 @@ const haveCardsInSolutionUniqueSymbols_TC = [
     },    
 ]
 
-const notValidCardsAboveIndex_TC = [
+const notValidCards_TC = [
     {
-        input: {
-            index: 0,
-            solution: [
+        input: [
                 [1, 3],
                 [1, 2],
                 [2, 3]
-            ]
-        },
+            ],
         description: 'Should return 0 in case all cards have connections, and each symbol repeates only once between cards',
         expected: 0,
-        testedFunction: () => input => notValidCards(input.solution, input.index).length
+        testedFunction: () => input => notValidCards(input).length
     },
     {
-        input: {
-            index: 0,
-            solution: [
+        input: [
                 [1, 3],
                 [1, 2],
                 [2, 1]
-            ]
-        },
+            ],
         description: 'Should return 1 in case one connection is doubled (3x2 instance)',
         expected: 1,
-        testedFunction: () => input => notValidCards(input.solution, input.index).length
+        testedFunction: () => input => notValidCards(input).length
     },
     {
-        input: {
-            index: 0,
-            solution: [
+        input: [
                 [1, 3],
                 [1, 2],
                 [2, 3, 4],
                 [1, 4]
-            ]
-        },
+            ],
         description: 'Should return 0 in case cards contain different numbers of symbols, but connections are single and exist)',
         expected: 0,
-        testedFunction: () => input => notValidCards(input.solution, input.index).length
+        testedFunction: () => input => notValidCards(input).length
     },    
     {
-        input: {
-            index: 0,
-            solution: [
+        input: [
                 [1, 3, 5],
                 [1, 2, 6],
                 [2, 3, 4],
                 [1, 4, 7]
-            ]
-        },
+            ],
         description: 'Should return 0 in case cards contain different numbers of symbols, but connections are single and exist, and there are dummy symbols in sollution)',
         expected: 0,
-        testedFunction: () => input => notValidCards(input.solution, input.index).length
+        testedFunction: () => input => notValidCards(input).length
+    },
+    {
+        input: [
+                [1, 3, 5],
+                [1, 2, 6],
+                [1, 2, 6],
+                [1, 2, 6]
+            ],
+        description: 'Should return 2 in case 2 cards repete)',
+        expected: 2,
+        testedFunction: () => input => notValidCards(input,).length
+    },
+    {
+        input: [
+                [1, 2, 6],
+                [1, 2, 6],
+                [1, 2, 6],
+                [1, 2, 6]
+            ],
+        description: 'Should return 3 card in case all cards repeat and total number of cards --- 4',
+        expected: 3,
+        testedFunction: () => input => {
+            return notValidCards(input).length;
+        }
     },
     {
         input: {
             index: 0,
             solution: [
-                [1, 3, 5],
-                [1, 2, 6],
-                [1, 2, 6],
-                [1, 2, 6]
+                [ 1,   3,   5 ],
+                [ 1,   2,   7 ],
+                [ 3,   2,   4 ],
+                [ 1,   4,   6 ],
+                [ 2,   5,   6 ],
+                [ 3,   6,   7 ],
+                [ 4,   5,   7 ],
             ]
         },
-        description: 'Should return 2 in case 2 cards repete)',
-        expected: 2,
-        testedFunction: () => input => notValidCards(input.solution, input.index).length
-    },
-    {
-        input: {
-            index: 2,
-            solution: [
-                [1, 2, 6],
-                [1, 2, 6],
-                [1, 2, 6],
-                [1, 2, 6]
-            ]
-        },
-        description: 'Should return 1 card in case all cards are the same and index is set to last one -1',
-        expected: 1,
+        description: 'Should return 0 cards for a valid solution 7 x 3',
+        expected: 0,
         testedFunction: () => input => notValidCards(input.solution, input.index).length
     }
 
@@ -188,7 +189,7 @@ export {
     areElementsOfArrayUnique_TC,
     commonSymbolsBetweenArrays_TC,
     haveCardsInSolutionUniqueSymbols_TC ,
-    notValidCardsAboveIndex_TC,   
+    notValidCards_TC,   
 }
 
 

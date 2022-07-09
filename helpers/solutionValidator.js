@@ -53,7 +53,6 @@ const commonSymbolsBetweenArrays = (arr1, arr2) => {
     const countedElements = new ArrayElementsCounter(joinedArrays);
     const keysFromBothArrays = countedElements.keys();
     countedElements.log();
-    console.log(keysFromBothArrays.filter(key => countedElements.get(key) > 1))
     return keysFromBothArrays.filter(key => countedElements.get(key) > 1);
 }
  
