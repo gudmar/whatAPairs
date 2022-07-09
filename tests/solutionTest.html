@@ -28,7 +28,7 @@
         areElementsOfArrayUnique_TC,
         commonSymbolsBetweenArrays_TC,
         haveCardsInSolutionUniqueSymbols_TC,
-        notValidCardsAboveIndex_TC,
+        notValidCards_TC,
         
     } from './solutionTest.js'
 
@@ -63,12 +63,12 @@
             injector.inject(testReport_haveCardsInSolutionUniqueSymbols)
 
             testExecutor.clearTestResults();
-            const testReport_notValidCardsAboveIndex = testExecutor.getTestReport({
-                testCases: notValidCardsAboveIndex_TC,
-                title: 'notValidCardsAboveIndex',
+            const testReport_notValidCards = testExecutor.getTestReport({
+                testCases: notValidCards_TC,
+                title: 'notValidCards',
             });
             injector.inject(htmlCreator.createBasicHTMLElement('h3',[{innerText: 'notValidCardsAboveIndex'}]))
-            injector.inject(testReport_notValidCardsAboveIndex)
+            injector.inject(testReport_notValidCards)
 
 
         })
