@@ -23,6 +23,32 @@ const areElementsOfArrayUnique_TC = [
     }
 ]
 
+
+const A = 10;
+const B = 11;
+const C = 12;
+const D = 13;
+const E = 14;
+const F = 15;
+const G = 16;
+const H = 17;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 const commonSymbolsBetweenArrays_TC = [
     {
         input: {
@@ -180,10 +206,53 @@ const notValidCards_TC = [
         description: 'Should return 0 cards for a valid solution 7 x 3',
         expected: 0,
         testedFunction: () => input => notValidCards(input.solution, input.index).length
+    },
+    {
+        input: {
+            index: 0,
+            solution: [
+                [ 1,   3,   5 ],
+                [ 1,   2,   7 ],  
+                [ 3,   2,   4 ],
+                [ 1,   4,   6 ],  
+                [ 2,   5,   6 ],
+                [ 3,   6,   7 ],
+                ]
+        },
+        description: 'Should return 0 cards for a valid solution 6 x 3',
+        expected: 0,
+        testedFunction: () => input => notValidCards(input.solution, input.index).length
+    },
+
+
+    {
+        input: {
+            index: 0,
+            solution:[
+                [ 1, 3, 5,  E],
+                [ 1, 2, 7,  D,  F],
+                [ 3, 2, 4,  8],
+                [ 1, 4, 6],
+                [ 2, 5, 6,  9],
+                [ 3, 6, 7,  A,  G],
+                [ 4, 5, 7,  B,  C],
+                [ 1, 8, 9,  A,  B],
+                [ 2, A, B,  C,  G],
+                [ 3, 9, B,  D],
+                [ 4, 9, E,  F,  G],
+                [ 5, 8, D]
+                ]
+        },
+        description: 'Testing manual sollution',
+        expected: 0,
+        testedFunction: () => input => {
+           const solution = notValidCards(input.solution, input.index);
+           console.log(solution);
+           return solution.length;
+        }
     }
-
-
 ]
+
 
 export {
     areElementsOfArrayUnique_TC,
@@ -191,8 +260,6 @@ export {
     haveCardsInSolutionUniqueSymbols_TC ,
     notValidCards_TC,   
 }
-
-
 
 
 const solutionToTest = [

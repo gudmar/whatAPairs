@@ -10,6 +10,36 @@ connectedCards = [];
 restrictedSymbols = [];
 symbols = Array(n).fill().map((_, index) => index + 1);
 desiredNumberOfSymbolsOnACard = input
+alreadyUsedSymbols = [];
+
+
+10. Take a base simplest sollution:
+1  3
+1  2
+2  3
+
+20. Add a card with a cardStartingSymbol.
+30. cardStartingSymbol++;
+40. Fill connectedCards array (where connected cards are 
+indexes of arrays containing cardStartingSymbol)
+50. Fill restrictedSymbols (where restricted symbols are 
+all symbols contained by cards having a cardStartingSymbol)
+60. Add used symbol to alreadyUsedSymbols if it is not there,
+70. Search for first not restricted symbol included in alreadyUsedSymbols and set it to 
+nextSymbolToUse. 
+80. If nextSymbolToUse is still not defined, generate a next symbol and set it under nextSymbolToUse,
+90. Add nextSymbolToUse to created card and find justAddedCards with cards that were added by adding the symbol to 
+newly created card.
+100. If justAddedCards is empty, get first not connected card and add nextSymbolToUse to this card.
+110. Fill restrictedSymbols and connectedCards
+120. If any of cards has more symbols that desiredNumberOfSymbolsOnACard, throw an error informing, that 
+alg did not work for this instance
+130. If any of symbols repetes on all cards more times than desiredNumberOfSymbolsOnACard, 
+throw an error informing, that alg did not work for this instance.
+140. If each cards length equals desiredNumberOfSymbolsOnACard and each symbol repetes desiredNumberOfSymbolsOnACard,
+check if solution is valid. If so, END. Else throw error informing that alg did not find a valid solution 
+for this certai instance.
+
 
 
 
