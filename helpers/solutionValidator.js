@@ -1,3 +1,5 @@
+import ArrayElementsCounter from './arrayElementsCounter.js'
+
 const countElementsOfArray = (arr) =>{
     return arr.reduce((acc, item) =>{
        if (acc[item] === undefined) {
@@ -7,37 +9,6 @@ const countElementsOfArray = (arr) =>{
        }
        return acc;
    }, {})
-}
-
-class ArrayElementsCounter {
-    constructor(arr){
-        this.mapObj = new Map();
-        arr.forEach(item => this.mapObj.has(item) ? this.mapObj.set(item, this.mapObj.get(item) + 1):this.mapObj.set(item, 1));
-    }
-    log() {
-        const output = [];
-        this.mapObj.forEach((value, key) => output.push([key, value]))
-        console.log(output);
-    }
-    keys(){
-        const output = [];
-        const keys = this.mapObj.keys();
-        for(let key of keys) {
-            output.push(key)
-        }
-        return output
-    }
-    values() {
-        const output = [];
-        const values = this.mapObj.values();
-        for(let val of values) {
-            output.push(val)
-        }
-        return output        
-    }
-    get(key) {
-        return this.mapObj.get(key);
-    }
 }
 
 const areElementsOfArrayUnique = (arr) => {
@@ -100,6 +71,11 @@ const notValidCards = solution => {
    return raport;
 }
 
+const allCardsHaveEqualLength = (solution) => {
+    const nrOfCards = solution[0].length;
+    return solution.every(card => card.length === nrOfCards)
+}
+
 const isSolutionValid = solution => notValidCards(solution).length === 0
 
 export {
@@ -109,4 +85,5 @@ export {
     haveCardsInSolutionUniqueSymbols,
     commonSymbolsBetweenArrays,
     areElementsOfArrayUnique, 
+    allCardsHaveEqualLength
 }

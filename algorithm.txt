@@ -28,9 +28,9 @@ all symbols contained by cards having a cardStartingSymbol)
 70. Search for first not restricted symbol included in alreadyUsedSymbols and set it to 
 nextSymbolToUse. 
 80. If nextSymbolToUse is still not defined, generate a next symbol and set it under nextSymbolToUse,
-90. Add nextSymbolToUse to created card and find justAddedCards with cards that were added by adding the symbol to 
+90. Add nextSymbolToUse to created card and find newlyAddedConnections with cards that were added by adding the symbol to 
 newly created card.
-100. If justAddedCards is empty, get first not connected card and add nextSymbolToUse to this card.
+100. If newlyAddedConnections is empty, get first not connected card and add nextSymbolToUse to this card.
 110. Fill restrictedSymbols and connectedCards
 120. If any of cards has more symbols that desiredNumberOfSymbolsOnACard, throw an error informing, that 
 alg did not work for this instance
