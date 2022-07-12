@@ -20,6 +20,10 @@ class CardsGenerator {
         this.symbols = this.getSymbolsArray(desiredNumberOfSymbolsOnACard); // from 0
         this.symbolIndex = 0;
     }
+    setProp(value, prop) {
+        console.log(value, prop)
+        this[prop] = value;
+    }
 
     get nrOfCards() { return this.solution.length; }
 
@@ -68,7 +72,8 @@ class CardsGenerator {
     getSymbolsArray(nrOfSymbols) { return Array(nrOfSymbols).fill().map((_, index) => index); }
 
     getFirstNotRestrictedSymbol(){
-        this.restrictedSymbols.find((item, index) => item !== this.symbols[index])
+        console.log(this.restrictedSymbols)
+        return this.symbols.find((item, index) => { console.log(item); return item !== this.restrictedSymbols[index]})
     }
 
     fillRestrictedSymbolsFromSingleCard(symbol, card) {
