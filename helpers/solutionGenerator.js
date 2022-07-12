@@ -6,15 +6,15 @@ class CardsGenerator {
         if (desiredNumberOfSymbolsOnACard < 2) throw new Error('CardsGenerator: desired number of symbols on a card should be > 1.')
         this.desiredNumberOfSymbolsOnACard = desiredNumberOfSymbolsOnACard;
         this.baseSolution = [
-            [1,  3]
-            [1,  2]
-            [2,  3]
+            [1,  3],
+            [1,  2],
+            [2,  3],
         ];
         this._connectedCards = {}; // from 0
         this._restrictedSymbols = {};
         this._alreadyUsedSymbols = {};
         this.cardStartingSymbolIndex = 1;
-        nextSymbolToUse = 1;
+        // nextSymbolToUse = 1;
         this.solution = this.baseSolution;
         this.addedCard = [];
         this.symbols = this.getSymbolsArray(desiredNumberOfSymbolsOnACard); // from 0
@@ -28,6 +28,7 @@ class CardsGenerator {
     }
 
     get alreadyUsedSymbols() { return Object.keys(this._alreadyUsedSymbols).map(s => parseInt(s))}
+
     addToAlreadyUsedSymbols(symbol) {this.alreadyUsedSymbols.push(symbol)}
 
     setConnectedCard(cardIndex) {
@@ -60,9 +61,10 @@ class CardsGenerator {
         return symbolsOnACard * (symbolsOnACard - 1) + 1
     }
 
-    counDesiredtNrOfCards(symbolsOnACard = this.desiredNumberOfSymbolsOnACard) {
+    countDesiredtNrOfCards(symbolsOnACard = this.desiredNumberOfSymbolsOnACard) {
         return this.countNrOfSymbols(symbolsOnACard);
     }
+
     getSymbolsArray(nrOfSymbols) { return Array(nrOfSymbols).fill().map((_, index) => index); }
 
     getFirstNotRestrictedSymbol(){
@@ -200,3 +202,5 @@ class CardsGenerator {
     }
 
 }
+
+export default CardsGenerator;
