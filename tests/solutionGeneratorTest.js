@@ -87,7 +87,73 @@ const getFirstNotRestrictedSymbol_TC = [
     },
 ]
 
+const fillRestrictedSymbolFromAllCards_TC = [
+    {
+        beforeEachData: {
+            desiredNrOfCards: 5
+        },
+        beforeEach: ({desiredNrOfCards}) => {
+            const testedObject = new CardsGenerator(desiredNrOfCards);
+            return { testedInstance: testedObject }
+        },
+        description: 'Expect to return [1, 2, 3, 4, 5] when new card with symbol 3 is added to solution',
+        input: {
+            card:[3],
+            solution: [
+                [ 1,   3,   5],
+                [ 1,   2],   
+                [ 3,   2,   4],
+                [ 1,   4,   6],
+                [ 2,   5,   6],
+            ]
+        },
+        mockData: {
+            restrictedSymbols: []
+        },
+        expected: [1, 2, 3, 4, 5],
+        matcher: arraysHaveSamePrimitiveElements,
+
+        testedFunction: ({ restrictedSymbols }, { testedInstance }) => {
+            testedInstance.setProp.call(testedInstance, restrictedSymbols, '_restrictedSymbols');
+            return ({ card, solution }) => {
+                testedInstance.fillRestrictedSymbolFromAllCards.call(testedInstance, card[card.length - 1], solution);
+                return testedInstance.restrictedSymbols;
+            }
+        },
+    },
+    {
+        description: 'Expect to return [1, 2, 3, 4, 5] when new card with symbol 3 is added to solution, and restricted symbols array already has [1, 2, 3] symbols',
+        input: {
+            card:[3],
+            solution: [
+                [ 1,   3,   5],
+                [ 1,   2],   
+                [ 3,   2,   4],
+                [ 1,   4,   6],
+                [ 2,   5,   6],
+            ]
+        },
+        mockData: {
+            restrictedSymbols: [1,2,3]
+        },
+        expected: [1, 2, 3, 4, 5],
+        matcher: arraysHaveSamePrimitiveElements,
+
+        testedFunction: ({ restrictedSymbols }, { testedInstance }) => {
+            testedInstance.setProp.call(testedInstance, restrictedSymbols, '_restrictedSymbols');
+            return ({ card, solution }) => {
+                testedInstance.fillRestrictedSymbolFromAllCards.call(testedInstance, card[card.length - 1], solution);
+                return testedInstance.restrictedSymbols;
+            }
+        }, dPoxni
+
+
+        
+    }
+]
+
 export {
     getSymbolsArray_TC,
     getFirstNotRestrictedSymbol_TC,
+    fillRestrictedSymbolFromAllCards_TC,
 }

@@ -232,6 +232,8 @@ restricted symbols: [1, 2, 3, 4, 5, 6, 7, 8, 9, A]
 ============================
 One not connecetd card. Lests experiment:
 
+FIRST EXPERIMENT
+
 Lets add a next card and see if more will match. Because we sould not add extra symbol?
 
 1)  1   3   5
@@ -419,7 +421,19 @@ NOW this is strange !! as 9 repetes 5 times !! And 6 is not connected and if
 
 
 
+============================================
+SECOND EXPERIMENT
 
+1)  1   3   5
+2)  1   2   7
+3)  3   2   4  8
+4)  1   4   6
+5)  2   5   6  9
+6)  3   6   7  A
+7)  4   5   7
+8)  1   8   9  A
+connected cards: [1, 2, 3, 4, 5, 6]
+restricted symbols: [1, 2, 3, 4, 5, 6, 7, 8, 9, A]
 
 
 
