@@ -19,7 +19,8 @@
     import CardsGenerator from '../helpers/solutionGenerator.js'
     import {
         getSymbolsArray_TC,
-        getFirstNotRestrictedSymbol_TC
+        getFirstNotRestrictedSymbol_TC,
+        fillRestrictedSymbolFromAllCards_TC,
     } from './solutionGeneratorTest.js'
 
     (function() {
@@ -44,6 +45,13 @@
             injector.inject(htmlCreator.createBasicHTMLElement('h3',[{innerText: 'getFirstNOtRestricetedSymbol'}]))
             injector.inject(testReport_getFirstNotRestrictedSymbol)
 
+            testExecutor.clearTestResults();
+            const testReport_fillRestrictedSymbolFromAllCards = testExecutor.getTestReport({
+                testCases: fillRestrictedSymbolFromAllCards_TC,
+                title: 'fillRestrictedSymbolFromAllCards'
+            });
+            injector.inject(htmlCreator.createBasicHTMLElement('h3',[{innerText: 'fillRestrictedSymbolsFromAllCards'}]))
+            injector.inject(testReport_fillRestrictedSymbolFromAllCards)
 
 
         })

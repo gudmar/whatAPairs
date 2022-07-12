@@ -72,7 +72,6 @@ class CardsGenerator {
     getSymbolsArray(nrOfSymbols) { return Array(nrOfSymbols).fill().map((_, index) => index); }
 
     getFirstNotRestrictedSymbol(){
-        console.log(this.restrictedSymbols)
         return this.symbols.find((item, index) => { console.log(item); return item !== this.restrictedSymbols[index]})
     }
 
