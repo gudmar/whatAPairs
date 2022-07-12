@@ -19,6 +19,7 @@
     import CardsGenerator from '../helpers/solutionGenerator.js'
     import {
         getSymbolsArray_TC,
+        getFirstNotRestrictedSymbol_TC
     } from './solutionGeneratorTest.js'
 
     (function() {
@@ -36,6 +37,14 @@
             injector.inject(testReport_getSymbolsArray)
 
             testExecutor.clearTestResults();
+            const testReport_getFirstNotRestrictedSymbol = testExecutor.getTestReport({
+                testCases: getFirstNotRestrictedSymbol_TC,
+                title: 'getFirstNotRestrictedSymbol'
+            });
+            injector.inject(htmlCreator.createBasicHTMLElement('h3',[{innerText: 'getFirstNOtRestricetedSymbol'}]))
+            injector.inject(testReport_getFirstNotRestrictedSymbol)
+
+
 
         })
     })()
