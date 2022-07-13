@@ -21,6 +21,7 @@
         getSymbolsArray_TC,
         getFirstNotRestrictedSymbol_TC,
         fillRestrictedSymbolFromAllCards_TC,
+        fillRestrictedSymbols_TC,
     } from './solutionGeneratorTest.js'
 
     (function() {
@@ -53,7 +54,13 @@
             injector.inject(htmlCreator.createBasicHTMLElement('h3',[{innerText: 'fillRestrictedSymbolsFromAllCards'}]))
             injector.inject(testReport_fillRestrictedSymbolFromAllCards)
 
-
+            testExecutor.clearTestResults();
+            const testReport_fillRestrictedSymbols = testExecutor.getTestReport({
+                testCases: fillRestrictedSymbols_TC,
+                title: 'fillRestrictedSymbols'
+            });
+            injector.inject(htmlCreator.createBasicHTMLElement('h3',[{innerText: 'fillRestrictedSymbols'}]))
+            injector.inject(testReport_fillRestrictedSymbols)
         })
     })()
 </script>
