@@ -22,6 +22,8 @@
         getFirstNotRestrictedSymbol_TC,
         fillRestrictedSymbolFromAllCards_TC,
         fillRestrictedSymbols_TC,
+        fillConnectedCards_TC,
+        getFirstNotConnectedCardIndex_TC,
     } from './solutionGeneratorTest.js'
 
     (function() {
@@ -61,6 +63,22 @@
             });
             injector.inject(htmlCreator.createBasicHTMLElement('h3',[{innerText: 'fillRestrictedSymbols'}]))
             injector.inject(testReport_fillRestrictedSymbols)
+
+            testExecutor.clearTestResults();
+            const testReport_fillConnectedCards = testExecutor.getTestReport({
+                testCases: fillConnectedCards_TC,
+                title: 'fillConnectedCards'
+            });
+            injector.inject(htmlCreator.createBasicHTMLElement('h3',[{innerText: 'fillConnectedCards'}]))
+            injector.inject(testReport_fillConnectedCards)
+
+            testExecutor.clearTestResults();
+            const testReport_getFirstNotConnectedCardIndex = testExecutor.getTestReport({
+                testCases: getFirstNotConnectedCardIndex_TC,
+                title: 'getFirstNotConnectedCardIndex'
+            });
+            injector.inject(htmlCreator.createBasicHTMLElement('h3',[{innerText: 'getFirstNotConnectedCardIndex'}]))
+            injector.inject(testReport_getFirstNotConnectedCardIndex)
         })
     })()
 </script>
