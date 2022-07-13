@@ -264,9 +264,249 @@ const fillRestrictedSymbols_TC = [
         },
 ]
 
+const fillConnectedCards_TC = [
+    {
+        beforeEachData: {
+            desiredNrOfCards: 5
+        },
+        beforeEach: ({desiredNrOfCards}) => {
+            const testedObject = new CardsGenerator(desiredNrOfCards);
+            return { testedInstance: testedObject }
+        },
+        description: 'Expect to return [0, 2, 3] when new card with symbol 3 is added to solution, and restricted symbols array already has [3, 4] symbols.',
+        input: {},
+        mockData: {
+            connectedCards: {},
+            addedCard:[3, 4],
+            solution: [
+                [ 1,   3,   5],
+                [ 1,   2],   
+                [ 3,   2,   4],
+                [ 1,   4,   6],
+                [ 2,   5,   6],
+            ]
+        },
+        expected: [0, 2, 3,],
+        matcher: arraysHaveSamePrimitiveElements,
+
+        testedFunction: ({ connectedCards, addedCard, solution }, { testedInstance }) => {
+            testedInstance.setProp.call(testedInstance, connectedCards, '_connectedCards');
+            testedInstance.setProp.call(testedInstance, solution, 'solution');
+            testedInstance.setProp.call(testedInstance, addedCard, 'addedCard');
+            return ({ card, solution }) => {
+                testedInstance.fillConnectedCards.call(testedInstance, card, solution);
+                return testedInstance.connectedCards;
+            }
+        },
+    },
+
+    {
+        description: 'Expected to return [0, 3, 4, 5, 6, 7] when addedCard [2, 23]',
+        input: {},
+        mockData: {
+            connectedCards: {},
+            addedCard:[2, 23],
+            solution: [
+                [1, 2, 3, 4, 5],
+                [1, 6, 7, 8, 9],
+                [1, 10, 11, 12],
+                [1, 2, 13, 14],
+                [2, 15, 16],
+                [2, 17, 18],
+                [2, 3, 19, 20],
+                [3, 21, 22, 23]
+            ]
+        },
+        expected: [0, 3, 4, 5, 6, 7],
+        matcher: arraysHaveSamePrimitiveElements,
+
+        testedFunction: ({ connectedCards, addedCard, solution }, { testedInstance }) => {
+            testedInstance.setProp.call(testedInstance, connectedCards, '_connectedCards');
+            testedInstance.setProp.call(testedInstance, solution, 'solution');
+            testedInstance.setProp.call(testedInstance, addedCard, 'addedCard');
+            return ({ card, solution }) => {
+                testedInstance.fillConnectedCards.call(testedInstance, card, solution);
+                return testedInstance.connectedCards;
+            }
+        },
+    },
+
+    {
+        description: 'Expected to return []: edge case, empty solution',
+        input: {},
+        mockData: {
+            connectedCards: {},
+            addedCard:[2, 23],
+            solution: [
+            ]
+        },
+        expected: [],
+        matcher: arraysHaveSamePrimitiveElements,
+
+        testedFunction: ({ connectedCards, addedCard, solution }, { testedInstance }) => {
+            testedInstance.setProp.call(testedInstance, connectedCards, '_connectedCards');
+            testedInstance.setProp.call(testedInstance, solution, 'solution');
+            testedInstance.setProp.call(testedInstance, addedCard, 'addedCard');
+            return ({ card, solution }) => {
+                testedInstance.fillConnectedCards.call(testedInstance, card, solution);
+                return testedInstance.connectedCards;
+            }
+        },
+    },
+    {
+        description: 'Expected to return []: edge case, empty addedCard',
+        input: {},
+        mockData: {
+            connectedCards: {},
+            addedCard:[],
+            solution: [
+                [1, 2, 3, 4, 5],
+                [1, 6, 7, 8, 9],
+                [1, 10, 11, 12],
+                [1, 2, 13, 14],
+                [2, 15, 16],
+                [2, 17, 18],
+                [2, 3, 19, 20],
+                [3, 21, 22, 23]
+            ]
+        },
+        expected: [],
+        matcher: arraysHaveSamePrimitiveElements,
+
+        testedFunction: ({ connectedCards, addedCard, solution }, { testedInstance }) => {
+            testedInstance.setProp.call(testedInstance, connectedCards, '_connectedCards');
+            testedInstance.setProp.call(testedInstance, solution, 'solution');
+            testedInstance.setProp.call(testedInstance, addedCard, 'addedCard');
+            return ({ card, solution }) => {
+                testedInstance.fillConnectedCards.call(testedInstance, card, solution);
+                return testedInstance.connectedCards;
+            }
+        },
+    },
+    {
+        description: 'Expected to return [0, 3, 4, 5, 6] when addedCard [2, 23], edge case: one card symbol is of type stirng rest are numbers. Empty cards in solution.',
+        input: {},
+        mockData: {
+            connectedCards: {},
+            addedCard:[2, 23],
+            solution: [
+                [1, 2, 3, 4, 5],
+                [1, 6, 7, 8, 9],
+                [1, 10, 11, 12],
+                [1, 2, 13, 14],
+                [2, 15, 16],
+                [2, 17, 18],
+                [2, 3, 19, 20],
+                [],
+                [3, 21, 22, '23'],
+                []
+            ]
+        },
+        expected: [0, 3, 4, 5, 6],
+        matcher: arraysHaveSamePrimitiveElements,
+
+        testedFunction: ({ connectedCards, addedCard, solution }, { testedInstance }) => {
+            testedInstance.setProp.call(testedInstance, connectedCards, '_connectedCards');
+            testedInstance.setProp.call(testedInstance, solution, 'solution');
+            testedInstance.setProp.call(testedInstance, addedCard, 'addedCard');
+            return ({ card, solution }) => {
+                testedInstance.fillConnectedCards.call(testedInstance, card, solution);
+                return testedInstance.connectedCards;
+            }
+        },
+    },
+]
+
+const getFirstNotConnectedCardIndex_TC = [
+    {
+        beforeEachData: {
+            desiredNrOfCards: 5
+        },
+        beforeEach: ({desiredNrOfCards}) => {
+            const testedObject = new CardsGenerator(desiredNrOfCards);
+            return { testedInstance: testedObject }
+        },
+        description: 'Expect to return 0 when already connected cards are 1, 2 and 4',
+        input: {},
+        mockData: {
+            connectedCards: {1:true,2:true,4:true},
+        },
+        expected: 0,
+        matcher: (a, b) => a === b,
+        testedFunction: ({ connectedCards }, { testedInstance }) => {
+            testedInstance.setProp.call(testedInstance, connectedCards, '_connectedCards');
+            return () => {
+                return testedInstance.getFirstNotConnectedCardIndex.call(testedInstance);
+            }
+        },
+    },
+
+    {
+        description: 'Expect to return 3 when already connected cards are 0, 1, 2 and 4',
+        input: {},
+        mockData: {
+            connectedCards: {0:true, 1:true,2:true,4:true},
+        },
+        expected: 3,
+        matcher: (a, b) => a === b,
+        testedFunction: ({ connectedCards }, { testedInstance }) => {
+            testedInstance.setProp.call(testedInstance, connectedCards, '_connectedCards');
+            return () => {
+                return testedInstance.getFirstNotConnectedCardIndex.call(testedInstance);
+            }
+        },
+    },
+
+    {
+        description: 'Expect to find -1 in case all cards are connected. Edge case',
+        input: {},
+        mockData: {
+            connectedCards: ()=> {
+                return Array(21).fill().reduce((prev,_,i) => {
+                    prev[`${i}`]=true;
+                    return prev;
+                }, {})
+            }
+        },
+        expected: -1,
+        matcher: (a, b) => a === b,
+        testedFunction: ({ connectedCards }, { testedInstance }) => {
+            console.log(connectedCards())
+            testedInstance.setProp.call(testedInstance, connectedCards(), '_connectedCards');
+            return () => {
+                return testedInstance.getFirstNotConnectedCardIndex.call(testedInstance);
+            }
+        },
+    },
+
+    {
+        description: 'Expect to find 20 in case all symbols are filled except for last one.',
+        input: {},
+        mockData: {
+            connectedCards: ()=> {
+                return Array(20).fill().reduce((prev,_,i) => {
+                    prev[`${i}`]=true;
+                    return prev;
+                }, {})
+            }
+        },
+        expected: 20,
+        matcher: (a, b) => a === b,
+        testedFunction: ({ connectedCards }, { testedInstance }) => {
+            console.log(connectedCards())
+            testedInstance.setProp.call(testedInstance, connectedCards(), '_connectedCards');
+            return () => {
+                return testedInstance.getFirstNotConnectedCardIndex.call(testedInstance);
+            }
+        },
+    },
+]
+
 export {
     getSymbolsArray_TC,
     getFirstNotRestrictedSymbol_TC,
     fillRestrictedSymbolFromAllCards_TC,
     fillRestrictedSymbols_TC,
+    fillConnectedCards_TC,
+    getFirstNotConnectedCardIndex_TC
 }

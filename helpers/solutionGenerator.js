@@ -35,8 +35,8 @@ class CardsGenerator {
     addToAlreadyUsedSymbols(symbol) {this.alreadyUsedSymbols.push(symbol)}
 
     setConnectedCard(cardIndex) {
-        if (this.connectedCards[`${cardIndex}`]) return false;
-        this.connectedCards[`${cardIndex}`] = true
+        if (this._connectedCards[`${cardIndex}`]) return false;
+        this._connectedCards[`${cardIndex}`] = true
         return true;
     }
 
@@ -65,17 +65,16 @@ class CardsGenerator {
     }
 
     countDesiredtNrOfCards(symbolsOnACard = this.desiredNumberOfSymbolsOnACard) {
-        return this.countNrOfSymbols(symbolsOnACard);
+        return this.countDesiredNrOfSymbols(symbolsOnACard);
     }
 
     getSymbolsArray(nrOfSymbols) { return Array(nrOfSymbols).fill().map((_, index) => index); }
 
     getFirstNotRestrictedSymbol(){
-        return this.symbols.find((item, index) => { console.log(item); return item !== this.restrictedSymbols[index]})
+        return this.symbols.find((item, index) => { return item !== this.restrictedSymbols[index]})
     }
 
     fillRestrictedSymbolsFromSingleCard(symbol, card) {
-        console.log(card, typeof card)
         if (card.find(s => s === symbol) === undefined) return;
         card.forEach(s => this.addRestrictedSymbol(s));
     }
@@ -111,7 +110,8 @@ class CardsGenerator {
     }
 
     getFirstNotConnectedCardIndex() {
-        for (let i = 0; i < this.nrOfCards; i++){
+        const desiredNumberOfCards = this.countDesiredtNrOfCards();
+        for (let i = 0; i < desiredNumberOfCards; i++){
             if (this._connectedCards[`${i}`] === undefined) return i;
         }
         return -1; // every card connected
