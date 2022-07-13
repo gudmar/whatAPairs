@@ -134,7 +134,7 @@ const fillRestrictedSymbolFromAllCards_TC = [
             ]
         },
         mockData: {
-            restrictedSymbols: [1,2,3]
+            restrictedSymbols: {1:true,2:true,3:true}
         },
         expected: [1, 2, 3, 4, 5],
         matcher: arraysHaveSamePrimitiveElements,
@@ -145,15 +145,128 @@ const fillRestrictedSymbolFromAllCards_TC = [
                 testedInstance.fillRestrictedSymbolFromAllCards.call(testedInstance, card[card.length - 1], solution);
                 return testedInstance.restrictedSymbols;
             }
-        }, dPoxni
+        },
+    },
+        {
+            description: 'Expect to return [1, 2, 3, 4, 6] when new card with symbol 3 is added to solution, and restricted symbols array already has [2, 4] symbols. Will not fill 5, as it only searches for a single symbol in all cards',
+            input: {
+                card:[3, 4],
+                solution: [
+                    [ 1,   3,   5],
+                    [ 1,   2],   
+                    [ 3,   2,   4],
+                    [ 1,   4,   6],
+                    [ 2,   5,   6],
+                ]
+            },
+            mockData: {
+                restrictedSymbols: {2:true,4:true}
+            },
+            expected: [1, 2, 3, 4, 6],
+            matcher: arraysHaveSamePrimitiveElements,
+    
+            testedFunction: ({ restrictedSymbols }, { testedInstance }) => {
+                testedInstance.setProp.call(testedInstance, restrictedSymbols, '_restrictedSymbols');
+                return ({ card, solution }) => {
+                    testedInstance.fillRestrictedSymbolFromAllCards.call(testedInstance, card[card.length - 1], solution);
+                    return testedInstance.restrictedSymbols;
+                }
+            },
+        },
+]
 
+const fillRestrictedSymbols_TC = [
+    {
+        beforeEachData: {
+            desiredNrOfCards: 5
+        },
+        beforeEach: ({desiredNrOfCards}) => {
+            const testedObject = new CardsGenerator(desiredNrOfCards);
+            return { testedInstance: testedObject }
+        },
+        description: 'Expect to return [1, 2, 3, 4, 5, 6] when new card with symbol 3 is added to solution, and restricted symbols array already has [2, 4] symbols.',
+        input: {
+            card:[3, 4],
+            solution: [
+                [ 1,   3,   5],
+                [ 1,   2],   
+                [ 3,   2,   4],
+                [ 1,   4,   6],
+                [ 2,   5,   6],
+            ]
+        },
+        mockData: {
+            restrictedSymbols: {2:true,4:true}
+        },
+        expected: [1, 2, 3, 4, 5, 6],
+        matcher: arraysHaveSamePrimitiveElements,
 
-        
-    }
+        testedFunction: ({ restrictedSymbols }, { testedInstance }) => {
+            testedInstance.setProp.call(testedInstance, restrictedSymbols, '_restrictedSymbols');
+            return ({ card, solution }) => {
+                testedInstance.fillRestrictedSymbols.call(testedInstance, card, solution);
+                return testedInstance.restrictedSymbols;
+            }
+        },
+    },
+    {
+        description: 'Expect to return [1, 2, 3, 4, 6] when card with [1] is passed.',
+        input: {
+            card:[1],
+            solution: [
+                [ 1,   3,   5],
+                [ 1,   2],   
+                [ 3,   2,   4],
+                [ 1,   4,   6],
+                [ 2,   5,   6],
+            ]
+        },
+        mockData: {
+            restrictedSymbols: {}
+        },
+        expected: [1, 2, 3, 4, 5, 6],
+        matcher: arraysHaveSamePrimitiveElements,
+
+        testedFunction: ({ restrictedSymbols }, { testedInstance }) => {
+            testedInstance.setProp.call(testedInstance, restrictedSymbols, '_restrictedSymbols');
+            return ({ card, solution }) => {
+                testedInstance.fillRestrictedSymbols.call(testedInstance, card, solution);
+                return testedInstance.restrictedSymbols;
+            }
+        },
+    },
+        {
+            description: 'Expect to return [1, 2, 3, 7] when card with [1] is passed.',
+            input: {
+                card:[1],
+                solution: [
+                    [ 1,   2],
+                    [ 1,   3],   
+                    [ 2,   3],
+                    [ 2,   4],
+                    [ 4,   5,   6],
+                    [1, 7]
+                ]
+            },
+            mockData: {
+                restrictedSymbols: {}
+            },
+            expected: [1 ,2, 3, 7],
+            matcher: arraysHaveSamePrimitiveElements,
+    
+            testedFunction: ({ restrictedSymbols }, { testedInstance }) => {
+                testedInstance.setProp.call(testedInstance, restrictedSymbols, '_restrictedSymbols');
+                return ({ card, solution }) => {
+                    testedInstance.fillRestrictedSymbols.call(testedInstance, card, solution);
+                    return testedInstance.restrictedSymbols;
+                }
+            },
+        },
 ]
 
 export {
     getSymbolsArray_TC,
     getFirstNotRestrictedSymbol_TC,
     fillRestrictedSymbolFromAllCards_TC,
+    fillRestrictedSymbols_TC,
 }

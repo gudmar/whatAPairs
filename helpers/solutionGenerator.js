@@ -21,7 +21,6 @@ class CardsGenerator {
         this.symbolIndex = 0;
     }
     setProp(value, prop) {
-        console.log(value, prop)
         this[prop] = value;
     }
 
@@ -76,6 +75,7 @@ class CardsGenerator {
     }
 
     fillRestrictedSymbolsFromSingleCard(symbol, card) {
+        console.log(card, typeof card)
         if (card.find(s => s === symbol) === undefined) return;
         card.forEach(s => this.addRestrictedSymbol(s));
     }
@@ -85,7 +85,7 @@ class CardsGenerator {
     }
 
     fillRestrictedSymbols(card, solution) {
-        card.forEach(symbol => this.fillRestrictedSymbolFromAllCards(symbol, card))
+        card.forEach(symbol => this.fillRestrictedSymbolFromAllCards(symbol, solution))
     }
 
     fillConnectedCardsWithSingleSymbol(symbol) {
