@@ -122,10 +122,12 @@ class CardsGenerator {
     }
 
     doesAnySymbolRepeatTooManyTimes() {
-        const allSymbols = this.solution.flat();
+        const allSymbols = [ ...this.solution.flat(), ...this.addedCard ];
         const elementCounter = new ArrayElementsCounter(allSymbols);
         const symbolsRepetitions = elementCounter.values();
-        return symbolsRepetitions.some(quantity => quantity > this.desiredNumberOfSymbolsOnACard)
+        return symbolsRepetitions.some(quantity =>
+           quantity > this.desiredNumberOfSymbolsOnACard
+        )
     }
 
     isPartialSolution(){

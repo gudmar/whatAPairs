@@ -502,11 +502,161 @@ const getFirstNotConnectedCardIndex_TC = [
     },
 ]
 
+
+const doesAnySumbolRepeatTooManyTimes_TC = [
+    {
+        beforeEachData: {
+            desiredNrOfCards: 4
+        },
+        beforeEach: ({desiredNrOfCards}) => {
+            const testedObject = new CardsGenerator(desiredNrOfCards);
+            return { testedInstance: testedObject }
+        },
+        description: 'Expecte to return false in case each symbol repeats exectly 4 times',
+        input: {},
+        mockData: {
+            solution: [
+                [1, 2, 3, 4],
+                [5, 6, 7, 8],
+                [1, 2, 3, 4],
+                [5, 6, 7, 8],
+                [1, 2, 3, 4],
+                [5, 6, 7, 8],
+                [1, 2, 3, 4],
+            ],
+            addedCard: [5, 6, 7, 8],
+        },
+        expected: false,
+        matcher: (a, b) => a === b,
+        testedFunction: ({ solution, addedCard }, { testedInstance }) => {
+            testedInstance.setProp.call(testedInstance, solution, 'solution');
+            testedInstance.setProp.call(testedInstance, addedCard, 'addedCard');
+            return () => {
+                return testedInstance.doesAnySymbolRepeatTooManyTimes.call(testedInstance);
+            }
+        },
+    },
+    {
+        description: 'Expecte to return true if any symbol repeats at least 5 times',
+        input: {},
+        mockData: {
+            solution: [
+                [1, 2, 3, 4],
+                [5, 6, 7, 8],
+                [1, 2, 3, 4],
+                [5, 6, 7, 8],
+                [1, 2, 3, 4],
+                [5, 6, 7, 8],
+                [1, 2, 3, 4],
+            ],
+            addedCard: [5, 6, 7, 5],
+        },
+        expected: true,
+        matcher: (a, b) => a === b,
+        testedFunction: ({ solution, addedCard }, { testedInstance }) => {
+            testedInstance.setProp.call(testedInstance, solution, 'solution');
+            testedInstance.setProp.call(testedInstance, addedCard, 'addedCard');
+            return () => {
+                return testedInstance.doesAnySymbolRepeatTooManyTimes.call(testedInstance);
+            }
+        },
+    },
+    {
+        description: 'Expecte to return false in case all cards in solutions are empty',
+        input: {},
+        mockData: {
+            solution: [
+                [],
+                [],
+                [],
+                [],
+                [],
+                [],
+                [],
+            ],
+            addedCard: [],
+        },
+        expected: false,
+        matcher: (a, b) => a === b,
+        testedFunction: ({ solution, addedCard }, { testedInstance }) => {
+            testedInstance.setProp.call(testedInstance, solution, 'solution');
+            testedInstance.setProp.call(testedInstance, addedCard, 'addedCard');
+            return () => {
+                return testedInstance.doesAnySymbolRepeatTooManyTimes.call(testedInstance);
+            }
+        },
+    },
+]
+
+const isPartialSolution_TC = [
+    {
+        beforeEachData: {
+            desiredNrOfCards: 3
+        },
+        beforeEach: ({desiredNrOfCards}) => {
+            const testedObject = new CardsGenerator(desiredNrOfCards);
+            return { testedInstance: testedObject }
+        },
+        description: 'Expect to return true is numbef of cards is set to 3 and solution is valid for 3 cards',
+        input: {},
+        mockData: {
+            solution: [
+                [1, 3, 5],
+                [1, 2, 7],
+                [3, 2, 4],
+                [1, 4, 6],
+                [2, 5, 6],
+                [3, 6, 7],
+                [4, 5, 7]
+            ],
+        },
+        expected: true,
+        matcher: (a, b) => a === b,
+        testedFunction: ({ solution }, { testedInstance }) => {
+            testedInstance.setProp.call(testedInstance, solution, 'solution');
+            return () => {
+                return testedInstance.isPartialSolution.call(testedInstance);
+            }
+        },
+    },
+    {
+        beforeEachData: {
+            desiredNrOfCards: 3
+        },
+        beforeEach: ({desiredNrOfCards}) => {
+            const testedObject = new CardsGenerator(desiredNrOfCards);
+            return { testedInstance: testedObject }
+        },
+        description: 'Expect to return false if each card is connected with any other card with only one symbol, but number of symbol repetitions is too small. Some cards repeat only 2 times.',
+        input: {},
+        mockData: {
+            solution: [
+                [1, 3, 5],
+                [1, 2, 7],
+                [3, 2, 4],
+                [1, 4, 6],
+                [2, 5, 6],
+                [3, 6, 7],
+            ],
+        },
+        expected: false,
+        matcher: (a, b) => a === b,
+        testedFunction: ({ solution }, { testedInstance }) => {
+            testedInstance.setProp.call(testedInstance, solution, 'solution');
+            return () => {
+                return testedInstance.isPartialSolution.call(testedInstance);
+            }
+        },
+    },
+]
+
 export {
     getSymbolsArray_TC,
     getFirstNotRestrictedSymbol_TC,
     fillRestrictedSymbolFromAllCards_TC,
     fillRestrictedSymbols_TC,
     fillConnectedCards_TC,
-    getFirstNotConnectedCardIndex_TC
+    getFirstNotConnectedCardIndex_TC,
+    doesAnySumbolRepeatTooManyTimes_TC,
+    isPartialSolution_TC,
 }

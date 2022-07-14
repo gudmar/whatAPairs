@@ -23,13 +23,14 @@
         haveCardsInSolutionUniqueSymbols,
         commonSymbolsBetweenArrays,
         areElementsOfArrayUnique, 
+        allSymbolsRepeatDesiredNrOfTimes,
     } from '../helpers/solutionValidator.js'
     import {
         areElementsOfArrayUnique_TC,
         commonSymbolsBetweenArrays_TC,
         haveCardsInSolutionUniqueSymbols_TC,
         notValidCards_TC,
-        
+        allSymbolsRepeatDesiredNrOfTimes_TC,
     } from './solutionTest.js'
 
     (function() {
@@ -70,7 +71,13 @@
             injector.inject(htmlCreator.createBasicHTMLElement('h3',[{innerText: 'notValidCardsAboveIndex'}]))
             injector.inject(testReport_notValidCards)
 
-
+            testExecutor.clearTestResults();
+            const testReport_allSymbolsRepeatDesiredNrOfTimes = testExecutor.getTestReport({
+                testCases: allSymbolsRepeatDesiredNrOfTimes_TC,
+                title: 'allSymbolsRepeatDesiredNrOfTimes',
+            });
+            injector.inject(htmlCreator.createBasicHTMLElement('h3',[{innerText: 'allSymbolsRepeatDesiredNrOfTimes'}]))
+            injector.inject(testReport_allSymbolsRepeatDesiredNrOfTimes)
         })
     })()
 </script>

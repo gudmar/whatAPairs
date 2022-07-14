@@ -67,8 +67,18 @@ const notValidCards = solution => {
        const partRaport = notValidCardsAboveIndex(solution, index);
        if (partRaport.length > 0) raport.push(partRaport);
    }
-   console.log(raport);
    return raport;
+}
+
+const allSymbolsRepeatDesiredNrOfTimes = solution => {
+
+    if (!Array.isArray(solution)) throw new Error('solutionValidator: allSymbolsRepeatDesiredNrOfTimes -> solutio is not an array')
+    const solutionSymbolCounter = new ArrayElementsCounter(solution.flat());
+    const desiredNumberOfRepetitions = solution[0].length;
+    if (solution.some(card => card.length !== desiredNumberOfRepetitions)) return false;
+    const symbolRepetitions = solutionSymbolCounter.values();
+    const result = symbolRepetitions.every(nrOfRepetitions => nrOfRepetitions === desiredNumberOfRepetitions);
+    return symbolRepetitions.every(nrOfRepetitions => nrOfRepetitions === desiredNumberOfRepetitions);
 }
 
 const allCardsHaveEqualLength = (solution) => {
@@ -76,7 +86,12 @@ const allCardsHaveEqualLength = (solution) => {
     return solution.every(card => card.length === nrOfCards)
 }
 
-const isSolutionValid = solution => notValidCards(solution).length === 0
+const allCardsConnectedWithSilgleSymbol = solution => notValidCards(solution).length === 0;
+
+const isSolutionValid = solution => {
+    if (!allSymbolsRepeatDesiredNrOfTimes(solution)) return false;
+    notValidCards(solution).length === 0
+}
 
 export {
     isSolutionValid,
@@ -85,5 +100,7 @@ export {
     haveCardsInSolutionUniqueSymbols,
     commonSymbolsBetweenArrays,
     areElementsOfArrayUnique, 
-    allCardsHaveEqualLength
+    allCardsHaveEqualLength,
+    allSymbolsRepeatDesiredNrOfTimes,
+    allCardsConnectedWithSilgleSymbol
 }
