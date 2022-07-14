@@ -24,6 +24,8 @@
         fillRestrictedSymbols_TC,
         fillConnectedCards_TC,
         getFirstNotConnectedCardIndex_TC,
+        doesAnySumbolRepeatTooManyTimes_TC,
+        isPartialSolution_TC,
     } from './solutionGeneratorTest.js'
 
     (function() {
@@ -79,6 +81,22 @@
             });
             injector.inject(htmlCreator.createBasicHTMLElement('h3',[{innerText: 'getFirstNotConnectedCardIndex'}]))
             injector.inject(testReport_getFirstNotConnectedCardIndex)
+
+            testExecutor.clearTestResults();
+            const testReport_doesAnySymbolRepeatTooManyTimes = testExecutor.getTestReport({
+                testCases: doesAnySumbolRepeatTooManyTimes_TC,
+                title: 'doesAnySymbolRepeatTooManyTimes'
+            });
+            injector.inject(htmlCreator.createBasicHTMLElement('h3',[{innerText: 'doesAnySymbolRepeatTooManyTimes'}]))
+            injector.inject(testReport_doesAnySymbolRepeatTooManyTimes)
+
+            testExecutor.clearTestResults();
+            const testReport_isPartialSolution = testExecutor.getTestReport({
+                testCases: isPartialSolution_TC,
+                title: 'isPartialSolution'
+            });
+            injector.inject(htmlCreator.createBasicHTMLElement('h3',[{innerText: 'isPartialSolution'}]))
+            injector.inject(testReport_isPartialSolution)
         })
     })()
 </script>

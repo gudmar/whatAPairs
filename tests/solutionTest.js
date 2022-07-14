@@ -5,6 +5,7 @@ import {
     haveCardsInSolutionUniqueSymbols,
     commonSymbolsBetweenArrays,
     areElementsOfArrayUnique, 
+    allSymbolsRepeatDesiredNrOfTimes,
 } from '../helpers/solutionValidator.js';
 import { arraysHaveSamePrimitiveElements } from '../libs/testMatchers.js';
 // data, description, expected, testedFunction
@@ -247,10 +248,47 @@ const notValidCards_TC = [
         expected: 0,
         testedFunction: () => input => {
            const solution = notValidCards(input.solution, input.index);
-           console.log(solution);
            return solution.length;
         }
     }
+]
+
+const allSymbolsRepeatDesiredNrOfTimes_TC = [
+    {
+        input: {
+            solution: [
+                [ 1,   3,   5 ],
+                [ 1,   2,   7 ],
+                [ 3,   2,   4 ],
+                [ 1,   4,   6 ],
+                [ 2,   5,   6 ],
+                [ 3,   6,   7 ],
+                [ 4,   5,   7 ],
+               ]               
+        },
+        description: `Should return true in case each card has equal length and each symbol repeats exectly desired nr of times`,
+        expected: true,
+        testedFunction: () => ({ solution }) => {
+            return allSymbolsRepeatDesiredNrOfTimes(solution)
+        }
+    },
+    {
+        input: {
+            solution: [
+                [ 1,   3,   5 ],
+                [ 1,   2,   7 ],
+                [ 3,   2,   4 ],
+                [ 1,   4,   6 ],
+                [ 2,   5,   6 ],
+                [ 3,   6,   7 ],
+               ]               
+        },
+        description: `Should return false in case all cards have connections to any other card, and they share only one common symbol, but symbols repeat not the same number of times`,
+        expected: false,
+        testedFunction: () => ({ solution }) => {
+            return allSymbolsRepeatDesiredNrOfTimes(solution)
+        }
+    },
 ]
 
 
@@ -259,6 +297,7 @@ export {
     commonSymbolsBetweenArrays_TC,
     haveCardsInSolutionUniqueSymbols_TC ,
     notValidCards_TC,   
+    allSymbolsRepeatDesiredNrOfTimes_TC,
 }
 
 
