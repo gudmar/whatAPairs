@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>What a pairs tests</title>
+    <link rel="stylesheet" href="../libs/testReport.css">
+</head>
+<body>
+    <div id="root"></div>
+</body>
+
+<script type="module">
+    import TestReport from '../libs/testReport.js';
+    import Injector from '../libs/injector.js';
+    import BasicHTMLElementCreator from '../libs/createBasicHTMLElement.js'
+    import CardsGenerator from '../helpers/solutionGenerator.js'
+    import {
+        getSymbolsArray_TC,
+        getFirstNotRestrictedSymbol_TC,
+        fillRestrictedSymbolFromAllCards_TC,
+        fillRestrictedSymbols_TC,
+        fillConnectedCards_TC,
+        getFirstNotConnectedCardIndex_TC,
+        doesAnySumbolRepeatTooManyTimes_TC,
+        isPartialSolution_TC,
+        isFinalSolution_TC,
+    } from './solutionGeneratorTest.js'
+
+    (function() {
+        window.addEventListener('DOMContentLoaded', () => {
+            const htmlCreator = new BasicHTMLElementCreator();
+            const testExecutor = new TestReport();
+            const injector = new Injector();
+
+
+            const solutionGenerator = new CardsGenerator(3);
+            console.log(solutionGenerator.getSolution().next())
+        })
+    })()
+</script>
+</html>

@@ -106,6 +106,10 @@
             });
             injector.inject(htmlCreator.createBasicHTMLElement('h3',[{innerText: 'isFinalSolution'}]))
             injector.inject(testReport_isFinalSolution)
+
+
+            const solutionGenerator = new CardsGenerator(3);
+            console.log(solutionGenerator.getSolution().next())
         })
     })()
 </script>

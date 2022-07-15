@@ -28,6 +28,7 @@ all symbols contained by cards having a cardStartingSymbol)
 70. Search for first not restricted symbol included in alreadyUsedSymbols and set it to 
 nextSymbolToUse. 
 80. If nextSymbolToUse is still not defined, generate a next symbol and set it under nextSymbolToUse,
+85. add nextSymbolToUse to alreadyUsedSymbols
 90. Add nextSymbolToUse to created card and find newlyAddedConnections with cards that were added by adding the symbol to 
 newly created card.
 100. If newlyAddedConnections is empty, get first not connected card and add nextSymbolToUse to this card.
