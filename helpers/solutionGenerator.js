@@ -7,14 +7,14 @@ class CardsGenerator {
         if (desiredNumberOfSymbolsOnACard < 2) throw new Error('CardsGenerator: desired number of symbols on a card should be > 1.')
         this.desiredNumberOfSymbolsOnACard = desiredNumberOfSymbolsOnACard;
         this.baseSolution = [
-            [1,  3],
+            [0,  2],
+            [0,  1],
             [1,  2],
-            [2,  3],
         ];
         this._connectedCards = {}; // from 0
         this._restrictedSymbols = {};
         this._alreadyUsedSymbols = {};
-        this.cardStartingSymbolIndex = 1;
+        this.cardStartingSymbolIndex = 0;
         // nextSymbolToUse = 1;
         this.solution = this.baseSolution;
         this.addedCard = [];
@@ -28,6 +28,7 @@ class CardsGenerator {
     get nrOfCards() { return this.solution.length; }
 
     get connectedCards() {
+        debugger
         return Object.keys(this._connectedCards).map(index => parseInt(index));
     }
 
@@ -36,7 +37,7 @@ class CardsGenerator {
     addToAlreadyUsedSymbols(symbol) {this.alreadyUsedSymbols.push(symbol)}
 
     setConnectedCard(cardIndex) {
-        if (this._connectedCards[`${cardIndex}`]) return false;
+        if (this._connectedCards[`${cardIndex}`] === true) return false;
         this._connectedCards[`${cardIndex}`] = true
         return true;
     }
@@ -57,7 +58,7 @@ class CardsGenerator {
     }
 
     addStartingSymbolToAddedCard() {
-        this.addedCard.push(this.cardStartingSymbol);
+        this.addedCard.push(this.cardStartingSymbolIndex);
         this.cardStartingSymbolIndex++;
     }
     
@@ -162,52 +163,61 @@ class CardsGenerator {
     * getSolution() {
         let nextSymbolToUse;
         do {
-            this.addedCard.push(this.cardStartingSymbol) // 20
+            // this.addedCard is not restarted ! this.addedCard = [] somewhere
+            // where is this.cardStartingSymbol incrementation?
+            this.addedCard = [];
+            this.addedCard.push(this.cardStartingSymbolIndex) // 20
             this.fillConnectedCards(); // 40
-            this.fillRestrictedSymbols(); // 50;
+            this.fillRestrictedSymbols(this.addedCard, this.solution); // 50;
+             console.log(this.connectedCards, this.restrictedSymbols)
             this.alreadyUsedSymbols.push(this.symbol);//60
-            const firstNotRestrictedSymbol = this.getFirstNotRestrictedSymbol(); // 70
-            nextSymbolToUse = firstNotRestrictedSymbol;
-            this.addToAlreadyUsedSymbols(nextSymbolToUse); // 70
-            if (nextSymbolToUse === undefined) {
-                this.symbolIndex += 1;
-                nextSymbolToUse = this.symbol;   
-            }                               // 80
-            this.addedCard.push(nextSymbolToUse); // 90
-            const newlyAddedConnections = this.fillConnectedCards();
-            this.fillRestrictedSymbols(); // 110
-            if (newlyAddedConnections.length === 0) {
-                const firstNotConnectedCard = this.getFirstNotConnectedCardIndex();
-                if (firstNotConnectedCard === -1) {
-                    this.logTrace('Something went not as expected in solution generator. Symbol was added, but no new card was connected:');
+            debugger
+            for (let symbolIndex = this.addedCard.length; symbolIndex < this.desiredNumberOfSymbolsOnACard; symbolIndex++) {
+                const firstNotRestrictedSymbol = this.getFirstNotRestrictedSymbol(); // 70
+                nextSymbolToUse = firstNotRestrictedSymbol;
+                
+                if (nextSymbolToUse === undefined) {
+                    this.symbolIndex += 1;
+                    nextSymbolToUse = this.symbol;   
+                }                               // 80
+                this.addToAlreadyUsedSymbols(nextSymbolToUse); // 85
+                this.addedCard.push(nextSymbolToUse); // 90
+                const newlyAddedConnections = this.fillConnectedCards();
+                this.fillRestrictedSymbols(this.addedCard, this.solution); // 110
+                if (newlyAddedConnections.length === 0) {
+                    const firstNotConnectedCard = this.getFirstNotConnectedCardIndex();
+                    if (firstNotConnectedCard === -1) {
+                        this.logTrace('Something went not as expected in solution generator. Symbol was added, but no new card was connected:');
+                        debugger;
+                        throw new Error('Alg failed')
+                    }
+                    if (this.solution.length - 1 < firstNotConnectedCard) debugger
+                    this.solution[firstNotConnectedCard].push(this.nextSymbolToUse);
+                } // 100
+                this.fillConnectedCards(); // 110
+                this.fillRestrictedSymbols(this.addedCard, this.solution); // 110;
+                if (this.hasAnyCardTooMuchSymbols()) {
+                    this.logTrace('A card has more than desired number of smbols, so alg did not work for this instance');
                     debugger;
                     throw new Error('Alg failed')
-                }
-                
-                this.solution[firstNotConnectedCard].push(this.nextSymbolToUse);
-            } // 100
-            this.fillConnectedCards(); // 110
-            this.fillRestrictedSymbols(); // 110;
-            if (this.hasAnyCardTooMuchSymbols()) {
-                this.logTrace('A card has more than desired number of smbols, so alg did not work for this instance');
-                debugger;
-                throw new Error('Alg failed')
-            } // 120
-            if (this.doesAnySymbolRepeatTooManyTimes()) {
-                this.logTrace('A symbol repetes too many times');
-                const elementCounter = ArrayElementsCounter(this.solution.flat());
-                console.log('Counted symbols:', elementCounter.getAll());
-                debugger;
-                throw new Error('Alg failed')
-            } // 130
+                } // 120
+                if (this.doesAnySymbolRepeatTooManyTimes()) {
+                    this.logTrace('A symbol repetes too many times');
+                    const elementCounter = ArrayElementsCounter(this.solution.flat());
+                    console.log('Counted symbols:', elementCounter.getAll());
+                    debugger;
+                    throw new Error('Alg failed')
+                } // 130
 
-            if (this.isPartialSolution()){
-                yield this.solution;
-            }
-            if (this.isFinalSolution()){
-                return this.solution;
-            }
+                if (this.isPartialSolution()){
+                    yield this.solution;
+                }
+                if (this.isFinalSolution()){
+                    return this.solution;
+                }
+            } // for
         } while (true); // Should be braken by return or error throw
+        // At the end should return solution instead of do..while loop.
     }
 
 }
