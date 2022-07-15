@@ -3,6 +3,7 @@ import { isSolutionValid, allCardsHaveEqualLength } from './solutionValidator.js
 
 class CardsGenerator {
     constructor(desiredNumberOfSymbolsOnACard) {
+        console.log(desiredNumberOfSymbolsOnACard);
         if (desiredNumberOfSymbolsOnACard < 2) throw new Error('CardsGenerator: desired number of symbols on a card should be > 1.')
         this.desiredNumberOfSymbolsOnACard = desiredNumberOfSymbolsOnACard;
         this.baseSolution = [
@@ -137,8 +138,10 @@ class CardsGenerator {
 
     isFinalSolution() {
         if (!allCardsHaveEqualLength(this.solution)) return false;
+        console.log('Desired', this.solution?.[0]?.length, this.desiredNumberOfSymbolsOnACard)
         if (this.solution?.[0]?.length !== this.desiredNumberOfSymbolsOnACard) return false;
-        return this.isSolutionValid(this.solution)
+        
+        return isSolutionValid(this.solution)
     }
 
     logTrace(message) {

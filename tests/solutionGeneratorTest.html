@@ -26,6 +26,7 @@
         getFirstNotConnectedCardIndex_TC,
         doesAnySumbolRepeatTooManyTimes_TC,
         isPartialSolution_TC,
+        isFinalSolution_TC,
     } from './solutionGeneratorTest.js'
 
     (function() {
@@ -97,6 +98,14 @@
             });
             injector.inject(htmlCreator.createBasicHTMLElement('h3',[{innerText: 'isPartialSolution'}]))
             injector.inject(testReport_isPartialSolution)
+
+            testExecutor.clearTestResults();
+            const testReport_isFinalSolution = testExecutor.getTestReport({
+                testCases: isFinalSolution_TC,
+                title: 'isFinalSolution'
+            });
+            injector.inject(htmlCreator.createBasicHTMLElement('h3',[{innerText: 'isFinalSolution'}]))
+            injector.inject(testReport_isFinalSolution)
         })
     })()
 </script>

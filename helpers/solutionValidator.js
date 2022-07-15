@@ -90,7 +90,7 @@ const allCardsConnectedWithSilgleSymbol = solution => notValidCards(solution).le
 
 const isSolutionValid = solution => {
     if (!allSymbolsRepeatDesiredNrOfTimes(solution)) return false;
-    notValidCards(solution).length === 0
+    return notValidCards(solution).length === 0
 }
 
 export {

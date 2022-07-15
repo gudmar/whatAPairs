@@ -597,7 +597,7 @@ const isPartialSolution_TC = [
             const testedObject = new CardsGenerator(desiredNrOfCards);
             return { testedInstance: testedObject }
         },
-        description: 'Expect to return true is numbef of cards is set to 3 and solution is valid for 3 cards',
+        description: 'Expect to return true if number of cards is set to 3 and solution is valid for 3 cards',
         input: {},
         mockData: {
             solution: [
@@ -648,6 +648,120 @@ const isPartialSolution_TC = [
             }
         },
     },
+    {
+        beforeEachData: {
+            desiredNrOfCards: 3
+        },
+        beforeEach: ({desiredNrOfCards}) => {
+            const testedObject = new CardsGenerator(desiredNrOfCards);
+            return { testedInstance: testedObject }
+        },
+        description: 'Expect to return true for a valid solution of 2 elements and 3 cards',
+        input: {},
+        mockData: {
+            solution: [
+                [1, 2],
+                [2, 3],
+                [3, 1]
+            ],
+        },
+        expected: true,
+        matcher: (a, b) => a === b,
+        testedFunction: ({ solution }, { testedInstance }) => {
+            testedInstance.setProp.call(testedInstance, solution, 'solution');
+            return () => {
+                return testedInstance.isPartialSolution.call(testedInstance);
+            }
+        },
+    },
+    {
+        beforeEachData: {
+            desiredNrOfCards: 3
+        },
+        beforeEach: ({desiredNrOfCards}) => {
+            const testedObject = new CardsGenerator(desiredNrOfCards);
+            return { testedInstance: testedObject }
+        },
+        description: 'Expect to false for 2 solutions sticked together but not connected',
+        input: {},
+        mockData: {
+            solution: [
+                [1, 2],
+                [2, 3],
+                [3, 1],
+                [4, 5],
+                [5, 6],
+                [6, 4]
+            ],
+        },
+        expected: false,
+        matcher: (a, b) => a === b,
+        testedFunction: ({ solution }, { testedInstance }) => {
+            testedInstance.setProp.call(testedInstance, solution, 'solution');
+            return () => {
+                return testedInstance.isPartialSolution.call(testedInstance);
+            }
+        },
+    },
+]
+
+const isFinalSolution_TC = [
+    {
+        beforeEachData: {
+            desiredNrOfCards: 3
+        },
+        beforeEach: ({desiredNrOfCards}) => {
+            const testedObject = new CardsGenerator(desiredNrOfCards);
+            return { testedInstance: testedObject }
+        },
+        description: 'Expect to return true if number of cards is set to 3 and solution is valid for 3 cards',
+        input: {},
+        mockData: {
+            solution: [
+                [1, 3, 5],
+                [1, 2, 7],
+                [3, 2, 4],
+                [1, 4, 6],
+                [2, 5, 6],
+                [3, 6, 7],
+                [4, 5, 7]
+            ],
+        },
+        expected: true,
+        matcher: (a, b) => a === b,
+        testedFunction: ({ solution }, { testedInstance }) => {
+            testedInstance.setProp.call(testedInstance, solution, 'solution');
+            return () => {
+                return testedInstance.isPartialSolution.call(testedInstance);
+            }
+        },
+    },
+    {
+        description: 'Expect to return false if number of cards in solution equals to 3 but desiredNumberOfCards is 4',
+        input: {},
+        mockData: {
+            solution: [
+                [1, 3, 5],
+                [1, 2, 7],
+                [3, 2, 4],
+                [1, 4, 6],
+                [2, 5, 6],
+                [3, 6, 7],
+                [4, 5, 7]
+            ],
+        },
+        expected: false,
+        matcher: (a, b) => a === b,
+        testedFunction: ({ solution }, { testedInstance }) => {
+            const desiredNumberOfCards = 4;
+            testedInstance.setProp.call(testedInstance, solution, 'solution');
+            testedInstance.setProp.call(testedInstance, desiredNumberOfCards, 'desiredNumberOfSymbolsOnACard');
+            return () => {
+                console.log('HERE I AM')
+                return testedInstance.isFinalSolution.call(testedInstance);
+            }
+        },
+    },
 ]
 
 export {
@@ -659,4 +773,5 @@ export {
     getFirstNotConnectedCardIndex_TC,
     doesAnySumbolRepeatTooManyTimes_TC,
     isPartialSolution_TC,
+    isFinalSolution_TC,
 }
