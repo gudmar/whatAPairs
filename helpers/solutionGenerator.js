@@ -18,7 +18,7 @@ class CardsGenerator {
         // nextSymbolToUse = 1;
         this.solution = this.baseSolution;
         this.addedCard = [];
-        this.symbols = this.getSymbolsArray(desiredNumberOfSymbolsOnACard); // from 0
+        this.symbols = this.getSymbolsArray(this.countDesiredNrOfSymbols(desiredNumberOfSymbolsOnACard)); // from 0
         this.symbolIndex = 0;
     }
     setProp(value, prop) {
@@ -28,7 +28,6 @@ class CardsGenerator {
     get nrOfCards() { return this.solution.length; }
 
     get connectedCards() {
-        debugger
         return Object.keys(this._connectedCards).map(index => parseInt(index));
     }
 
@@ -92,7 +91,7 @@ class CardsGenerator {
     fillConnectedCardsWithSingleSymbol(symbol) {
         const cardsAddedWithThisIteration = [];
         this.solution.forEach((card, index) => {
-            if (card.find(s => (symbol === s))){
+            if (card.find(s => (symbol === s)) !== undefined){
                 const isNewConnection = this.setConnectedCard(index);
                 if (isNewConnection) cardsAddedWithThisIteration.push(index)
             }
@@ -170,15 +169,14 @@ class CardsGenerator {
             this.fillConnectedCards(); // 40
             this.fillRestrictedSymbols(this.addedCard, this.solution); // 50;
              console.log(this.connectedCards, this.restrictedSymbols)
-            this.alreadyUsedSymbols.push(this.symbol);//60
-            debugger
+            this.alreadyUsedSymbols.push(this.symbols[this.symbolIndex]);//60
             for (let symbolIndex = this.addedCard.length; symbolIndex < this.desiredNumberOfSymbolsOnACard; symbolIndex++) {
                 const firstNotRestrictedSymbol = this.getFirstNotRestrictedSymbol(); // 70
                 nextSymbolToUse = firstNotRestrictedSymbol;
                 
                 if (nextSymbolToUse === undefined) {
                     this.symbolIndex += 1;
-                    nextSymbolToUse = this.symbol;   
+                    nextSymbolToUse = this.symbols[this.symbolIndex];   
                 }                               // 80
                 this.addToAlreadyUsedSymbols(nextSymbolToUse); // 85
                 this.addedCard.push(nextSymbolToUse); // 90

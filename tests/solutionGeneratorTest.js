@@ -415,6 +415,31 @@ const fillConnectedCards_TC = [
             }
         },
     },
+    {
+        description: 'Should return [0, 1] when starting solution array given and added card is [0]',
+        input: {},
+        mockData: {
+            connectedCards: {},
+            addedCard:[0],
+            solution: [
+                [0, 1],
+                [1, 2],
+                [2, 0]
+            ],
+        },
+        expected: [0, 2],
+        matcher: arraysHaveSamePrimitiveElements,
+
+        testedFunction: ({ connectedCards, addedCard, solution }, { testedInstance }) => {
+            testedInstance.setProp.call(testedInstance, connectedCards, '_connectedCards');
+            testedInstance.setProp.call(testedInstance, solution, 'solution');
+            testedInstance.setProp.call(testedInstance, addedCard, 'addedCard');
+            return ({ card, solution }) => {
+                testedInstance.fillConnectedCards.call(testedInstance, card, solution);
+                return testedInstance.connectedCards;
+            }
+        },
+    },
 ]
 
 const getFirstNotConnectedCardIndex_TC = [
