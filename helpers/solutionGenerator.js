@@ -119,7 +119,7 @@ class CardsGenerator {
     }
 
     hasAnyCardTooMuchSymbols() {
-        return this.solution.findIndex(card => card.length > this.desiredNumberOfSymbolsOnACard) === -1
+        return this.solution.findIndex(card => card.length > this.desiredNumberOfSymbolsOnACard) !== -1
     }
 
     doesAnySymbolRepeatTooManyTimes() {
