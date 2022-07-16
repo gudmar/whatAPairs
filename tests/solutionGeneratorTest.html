@@ -27,6 +27,7 @@
         doesAnySumbolRepeatTooManyTimes_TC,
         isPartialSolution_TC,
         isFinalSolution_TC,
+        hasAnyCardTooMuchSymbols_TC,
     } from './solutionGeneratorTest.js'
 
     (function() {
@@ -107,9 +108,17 @@
             injector.inject(htmlCreator.createBasicHTMLElement('h3',[{innerText: 'isFinalSolution'}]))
             injector.inject(testReport_isFinalSolution)
 
+            testExecutor.clearTestResults();
+            const testReport_hasAnyCardTooMuchSymbols = testExecutor.getTestReport({
+                testCases: hasAnyCardTooMuchSymbols_TC,
+                title: 'hasAnyCardTooMuchSymbols'
+            });
+            injector.inject(htmlCreator.createBasicHTMLElement('h3',[{innerText: 'hasAnyCardTooMuchSymbols'}]))
+            injector.inject(testReport_hasAnyCardTooMuchSymbols)
 
-            const solutionGenerator = new CardsGenerator(3);
-            console.log(solutionGenerator.getSolution().next())
+
+            // const solutionGenerator = new CardsGenerator(3);
+            // console.log(solutionGenerator.getSolution().next())
         })
     })()
 </script>

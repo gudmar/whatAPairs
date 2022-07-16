@@ -442,6 +442,109 @@ const fillConnectedCards_TC = [
     },
 ]
 
+const hasAnyCardTooMuchSymbols_TC = [
+    {
+        beforeEachData: {
+            desiredNrOfCards: 3,
+        },
+        beforeEach: ({desiredNrOfCards}) => {
+            const testedObject = new CardsGenerator(desiredNrOfCards);
+            return { testedInstance: testedObject }
+        },
+        description: 'Expect to return false in case all cards in the solution have lehgth equal to desired number of symbols on a card',
+        input: {},
+        mockData: {
+            solution: [
+                [1,2,3],
+                [4,5,6],
+                [7,8,9]
+            ]
+        },
+        expected: false,
+        matcher: (a, b) => a === b,
+        testedFunction: ({ solution }, { testedInstance }) => {
+            testedInstance.setProp.call(testedInstance, solution, 'solution');
+            return () => {
+                return testedInstance.hasAnyCardTooMuchSymbols.call(testedInstance);
+            }
+        },
+    },
+    {
+        description: 'Expect to return false in case all cards in the solution have length equal or smaller then to desired number of symbols on a card',
+        input: {},
+        mockData: {
+            solution: [
+                [1,2,3],
+                [4,5],
+                [7,9]
+            ]
+        },
+        expected: false,
+        matcher: (a, b) => a === b,
+        testedFunction: ({ solution }, { testedInstance }) => {
+            testedInstance.setProp.call(testedInstance, solution, 'solution');
+            return () => {
+                return testedInstance.hasAnyCardTooMuchSymbols.call(testedInstance);
+            }
+        },
+    },  
+    {
+        description: 'Expect to return true in case one of cards has more elements than desired number of cards.',
+        input: {},
+        mockData: {
+            solution: [
+                [1,2,3],
+                [4,5, 6],
+                [7,9, 7, 8]
+            ]
+        },
+        expected: true,
+        matcher: (a, b) => a === b,
+        testedFunction: ({ solution }, { testedInstance }) => {
+            testedInstance.setProp.call(testedInstance, solution, 'solution');
+            return () => {
+                return testedInstance.hasAnyCardTooMuchSymbols.call(testedInstance);
+            }
+        },
+    },  
+    {
+        description: 'Expect to return false in case solution is empty',
+        input: {},
+        mockData: {
+            solution: [
+            ]
+        },
+        expected: false,
+        matcher: (a, b) => a === b,
+        testedFunction: ({ solution }, { testedInstance }) => {
+            testedInstance.setProp.call(testedInstance, solution, 'solution');
+            return () => {
+                return testedInstance.hasAnyCardTooMuchSymbols.call(testedInstance);
+            }
+        },
+    },  
+    {
+        description: 'Expect to return false in caes all cards have less or equal number of symbols to desiredNrOfSymbols, and one of cards is an empty array',
+        input: {},
+        mockData: {
+            solution: [
+                [1,2,3],
+                [],
+                [6,4,5]
+
+            ]
+        },
+        expected: false,
+        matcher: (a, b) => a === b,
+        testedFunction: ({ solution }, { testedInstance }) => {
+            testedInstance.setProp.call(testedInstance, solution, 'solution');
+            return () => {
+                return testedInstance.hasAnyCardTooMuchSymbols.call(testedInstance);
+            }
+        },
+    },  
+]
+
 const getFirstNotConnectedCardIndex_TC = [
     {
         beforeEachData: {
@@ -799,4 +902,5 @@ export {
     doesAnySumbolRepeatTooManyTimes_TC,
     isPartialSolution_TC,
     isFinalSolution_TC,
+    hasAnyCardTooMuchSymbols_TC
 }
