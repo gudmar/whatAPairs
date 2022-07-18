@@ -608,7 +608,8 @@ const getFirstNotConnectedCardIndex_TC = [
     },
 
     {
-        description: 'Expect to find 20 in case all symbols are filled except for last one.',
+        description: 'Expect to return -1 in case there are 20 symbols passed in case where solution should have 21 cards, but current solution is only 3 cards.',
+        // No need to search through not existing cards
         input: {},
         mockData: {
             connectedCards: ()=> {
@@ -618,12 +619,37 @@ const getFirstNotConnectedCardIndex_TC = [
                 }, {})
             }
         },
-        expected: 20,
+        expected: -1,
         matcher: (a, b) => a === b,
         testedFunction: ({ connectedCards }, { testedInstance }) => {
             console.log(connectedCards())
             testedInstance.setProp.call(testedInstance, connectedCards(), '_connectedCards');
             return () => {
+                return testedInstance.getFirstNotConnectedCardIndex.call(testedInstance);
+            }
+        },
+    },
+
+    {
+        description: 'Expect to return 3 in case of basic solution extended by a single card with just one symbol.',
+        input: {
+            solution: [
+                [0,2],
+                [0,1],
+                [2,1],
+            ],
+            addedCard: [0]
+        },
+        mockData: {
+            connectedCards: [0, 1]
+        },
+        expected: 2,
+        matcher: (a, b) => a === b,
+        testedFunction: ({ connectedCards }, { testedInstance }) => {
+            testedInstance.setProp.call(testedInstance, connectedCards, '_connectedCards');
+            return ({solution, addedCard}) => {
+                testedInstance.solution = solution;
+                testedInstance.addedCard = addedCard
                 return testedInstance.getFirstNotConnectedCardIndex.call(testedInstance);
             }
         },

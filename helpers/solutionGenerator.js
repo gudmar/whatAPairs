@@ -3,7 +3,6 @@ import { isSolutionValid, allCardsHaveEqualLength } from './solutionValidator.js
 
 class CardsGenerator {
     constructor(desiredNumberOfSymbolsOnACard) {
-        console.log(desiredNumberOfSymbolsOnACard);
         if (desiredNumberOfSymbolsOnACard < 2) throw new Error('CardsGenerator: desired number of symbols on a card should be > 1.')
         this.desiredNumberOfSymbolsOnACard = desiredNumberOfSymbolsOnACard;
         this.baseSolution = [
@@ -114,7 +113,7 @@ class CardsGenerator {
     getFirstNotConnectedCardIndex() {
         // const desiredNumberOfCards = this.countDesiredtNrOfCards();
         // for (let i = 0; i < desiredNumberOfCards; i++){
-        for (let i = 0; i < this.solution.length; i++){
+        for (let i = 0; i <= this.solution.length; i++){
             if (this._connectedCards[`${i}`] === undefined) return i;
         }
         return -1; // every card connected
@@ -140,7 +139,6 @@ class CardsGenerator {
 
     isFinalSolution() {
         if (!allCardsHaveEqualLength(this.solution)) return false;
-        console.log('Desired', this.solution?.[0]?.length, this.desiredNumberOfSymbolsOnACard)
         if (this.solution?.[0]?.length !== this.desiredNumberOfSymbolsOnACard) return false;
         
         return isSolutionValid(this.solution)
@@ -241,7 +239,7 @@ class CardsGenerator {
             const firstNotConnectedCardIndex = this.getFirstNotConnectedCardIndex(); // 60
             if (firstNotConnectedCardIndex === -1) {
                 // all cards are connected, but this might not be the solution yet
-                this.solution.push(this.addedCard);
+                if (this.addedCard.length > 0) this.solution.push(this.addedCard);
                 this.addedCard = [];
                 this.addedCard.push(this.symbols[this.cardStartingSymbolIndex])
                 this.cardStartingSymbolIndex += 1;
