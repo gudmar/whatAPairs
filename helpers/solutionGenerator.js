@@ -113,7 +113,8 @@ class CardsGenerator {
     getFirstNotConnectedCardIndex() {
         // const desiredNumberOfCards = this.countDesiredtNrOfCards();
         // for (let i = 0; i < desiredNumberOfCards; i++){
-        for (let i = 0; i <= this.solution.length; i++){
+        for (let i = 0; i < this.solution.length; i++){
+            if (this._connectedCards[`${i}`] === undefined && i === 0) debugger
             if (this._connectedCards[`${i}`] === undefined) return i;
         }
         return -1; // every card connected
@@ -227,37 +228,67 @@ class CardsGenerator {
     connectNotConnectedCardWithNotRestrictedSymbol(firstNotConnectedCardIndex, firstNotRestrictedSymbol) {
         //Connect first not restricted card with first not restricted symbol
         // debugger
-        this.solution[firstNotConnectedCardIndex].push(firstNotRestrictedSymbol);
-        this.addedCard.push(firstNotRestrictedSymbol)
+        const wholeSolution = [...this.solution, this.addedCard]
+        try{
+            this.solution[firstNotConnectedCardIndex].push(firstNotRestrictedSymbol);
+            this.addedCard.push(firstNotRestrictedSymbol)
+            
+        } catch(e) {
+            debugger;
+        }
     }
 
     * getSolution() {
         const stopCondition = {};
         this.addedCard = [];
         let counter = 0;
+        this.fillConnectedCards();
+        this.fillRestrictedSymbols(this.addedCard, this.solution);
         do {
             const firstNotConnectedCardIndex = this.getFirstNotConnectedCardIndex(); // 60
-            if (firstNotConnectedCardIndex === -1) {
-                // all cards are connected, but this might not be the solution yet
-                if (this.addedCard.length > 0) this.solution.push(this.addedCard);
-                this.addedCard = [];
+            if (firstNotConnectedCardIndex === -1 && this.addedCard.length == 0){
+                //start new card, first time
                 this.addedCard.push(this.symbols[this.cardStartingSymbolIndex])
                 this.cardStartingSymbolIndex += 1;
-            } else {
+                
+            } else if (firstNotConnectedCardIndex === -1 && this.addedCard.length > 0){
+                // add card to solution
+                this.fillConnectedCards();
+                this.fillRestrictedSymbols(this.addedCard, this.solution);        
+                this.solution.push(this.addedCard);
+                this.addedCard = [];
+
+            } else if (firstNotConnectedCardIndex !== -1) {
+                //add symbol to card
                 const firstNotRestrictedSymbol = this.getFirstNotRestrictedSymbol(); // 70\
                 if (firstNotRestrictedSymbol === undefined) {
                     debugger;
                     throw new Error('first not restricted symbol is -1, and this should not happen')
                 }
-                this.connectNotConnectedCardWithNotRestrictedSymbol(firstNotConnectedCardIndex, firstNotRestrictedSymbol) // 80;
-                this.fillConnectedCards(); // 90
-                this.fillRestrictedSymbols(this.addedCard, this.solution); // 90
-                stopCondition.isPartialSolution = this.isPartialSolution();
-                stopCondition.isFinalSolution = this.isFinalSolution();
-                if (stopCondition.isPartialSolution && !stopCondition.isFinalSolution){
-                    yield this.solution;
-                }
+            } else {
+                console.error('This should not happen.'); debugger;
             }
+            // if (firstNotConnectedCardIndex === -1) { // push addedCard
+            //     // all cards are connected, but this might not be the solution yet
+            //     if (this.addedCard.length > 0) this.solution.push(this.addedCard);
+            //     this.addedCard = [];
+            //     this.addedCard.push(this.symbols[this.cardStartingSymbolIndex])
+            //     this.cardStartingSymbolIndex += 1;
+            // } else {
+            //     const firstNotRestrictedSymbol = this.getFirstNotRestrictedSymbol(); // 70\
+            //     if (firstNotRestrictedSymbol === undefined) {
+            //         debugger;
+            //         throw new Error('first not restricted symbol is -1, and this should not happen')
+            //     }
+            //     this.connectNotConnectedCardWithNotRestrictedSymbol(firstNotConnectedCardIndex, firstNotRestrictedSymbol) // 80;
+            //     this.fillConnectedCards(); // 90
+            //     this.fillRestrictedSymbols(this.addedCard, this.solution); // 90
+            //     stopCondition.isPartialSolution = this.isPartialSolution();
+            //     stopCondition.isFinalSolution = this.isFinalSolution();
+            //     if (stopCondition.isPartialSolution && !stopCondition.isFinalSolution){
+            //         yield this.solution;
+            //     }
+            // }
             counter++;
         } while ((!stopCondition.isFinalSolution) && counter < 100)
         console.log('SOLUTION', this.solution)
