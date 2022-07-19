@@ -114,7 +114,7 @@ class CardsGenerator {
         // const desiredNumberOfCards = this.countDesiredtNrOfCards();
         // for (let i = 0; i < desiredNumberOfCards; i++){
         for (let i = 0; i < this.solution.length; i++){
-            if (this._connectedCards[`${i}`] === undefined && i === 0) debugger
+            // if (this._connectedCards[`${i}`] === undefined && i === 0) debugger
             if (this._connectedCards[`${i}`] === undefined) return i;
         }
         return -1; // every card connected
@@ -234,9 +234,12 @@ class CardsGenerator {
             this.addedCard.push(firstNotRestrictedSymbol)
             
         } catch(e) {
+            console.error(e)
             debugger;
         }
     }
+
+    getSnap(obj) {return JSON.parse(JSON.stringify(obj))}
 
     * getSolution() {
         const readyReport = {
@@ -253,23 +256,28 @@ class CardsGenerator {
             this.fillRestrictedSymbols(this.addedCard, this.solution);
             do {
                 firstNotConnectedCard = this.getFirstNotConnectedCardIndex();
-                const firstNotRestrictedSymbol = this.getFirstNotRestrictedSymbol();
-                if (firstNotRestrictedSymbol === undefined) {
-                    debugger;
-                    throw new Error('First not restircted symbol is undefined')
-                }
-                this.connectNotConnectedCardWithNotRestrictedSymbol(firstNotConnectedCard, firstNotRestrictedSymbol);
-                newlyAddedConnections = this.fillConnectedCards();
-                this.fillRestrictedSymbols(this.addedCard, this.solution);
-                if (newlyAddedConnections.length === 0 && firstNotConnectedCard === -1){
-                    console.log(this.solution, this.addedCard);
-                    debugger;
-                    throw new Error('Why this is supposed to be wrong?')
-                    
+                console.log(firstNotConnectedCard, this.getSnap(this.solution), this.getSnap(this.addedCard), this.getSnap(this._connectedCards), this.getSnap(this.restrictedSymbols))
+                if (firstNotConnectedCard !== -1) {
+                    const firstNotRestrictedSymbol = this.getFirstNotRestrictedSymbol();
+                    if (firstNotRestrictedSymbol === undefined) {
+                        debugger;
+                        throw new Error('First not restircted symbol is undefined')
+                    }
+                    if (firstNotRestrictedSymbol === -1) debugger; // throw error? This should not happen. Alg failed?
+                    this.connectNotConnectedCardWithNotRestrictedSymbol(firstNotConnectedCard, firstNotRestrictedSymbol);
+                    newlyAddedConnections = this.fillConnectedCards();
+                    this.fillRestrictedSymbols(this.addedCard, this.solution);
+                    if (newlyAddedConnections.length === 0 && firstNotConnectedCard === -1){
+                        console.log(this.solution, this.addedCard);
+                        debugger;
+                        throw new Error('Why this is supposed to be wrong?')                        
+                    }
                 }
             } while (firstNotConnectedCard != -1)
             this.solution.push(this.addedCard);
             this.addedCard = [];
+            this._connectedCards = {};
+            this._restrictedSymbols = [];
             if (this.doesAnySymbolRepeatTooManyTimes()) {
                 console.log('Repeats too many times', this.solution, this.addedCard);
                 debugger;
