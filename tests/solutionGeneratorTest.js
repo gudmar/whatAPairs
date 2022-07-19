@@ -570,16 +570,30 @@ const getFirstNotConnectedCardIndex_TC = [
     },
 
     {
-        description: 'Expect to return 3 when already connected cards are 0, 1, 2 and 4',
-        input: {},
-        mockData: {
-            connectedCards: {0:true, 1:true,2:true,4:true},
+        description: 'Expect to return 5 in case of partial solution 3 x 7. Last symbol to add for full solution',
+        input: {
+            solution: [
+                [0, 2, 4],
+                [0, 1, 6],
+                [2, 1, 3],
+                [0, 3, 5],
+                [1, 4, 5],
+                [2, 5, 6],
+            ],
+            connectedCards: [0,1,2,3,4],
+            addedCard: [3,4], // 6
         },
-        expected: 3,
+        mockData: {
+            connectedCards: {0:true,1:true,2:true,4:true,5:true},
+        },
+        expected: 5,
         matcher: (a, b) => a === b,
         testedFunction: ({ connectedCards }, { testedInstance }) => {
             testedInstance.setProp.call(testedInstance, connectedCards, '_connectedCards');
-            return () => {
+            return ({solution, connectedCards, addedCard}) => {
+                testedInstance.solution = solution;
+                testedInstance._connectedCards = connectedCards;
+                testedInstance.addedCard = addedCard;
                 return testedInstance.getFirstNotConnectedCardIndex.call(testedInstance);
             }
         },
@@ -599,7 +613,6 @@ const getFirstNotConnectedCardIndex_TC = [
         expected: -1,
         matcher: (a, b) => a === b,
         testedFunction: ({ connectedCards }, { testedInstance }) => {
-            console.log(connectedCards())
             testedInstance.setProp.call(testedInstance, connectedCards(), '_connectedCards');
             return () => {
                 return testedInstance.getFirstNotConnectedCardIndex.call(testedInstance);
@@ -644,6 +657,30 @@ const getFirstNotConnectedCardIndex_TC = [
             connectedCards: [0, 1]
         },
         expected: 2,
+        matcher: (a, b) => a === b,
+        testedFunction: ({ connectedCards }, { testedInstance }) => {
+            testedInstance.setProp.call(testedInstance, connectedCards, '_connectedCards');
+            return ({solution, addedCard}) => {
+                testedInstance.solution = solution;
+                testedInstance.addedCard = addedCard
+                return testedInstance.getFirstNotConnectedCardIndex.call(testedInstance);
+            }
+        },
+    },
+    {
+        description: 'Expect to return -1 in case of 4th card being added and all cards connected',
+        input: {
+            solution: [
+                [0,2],
+                [0,1],
+                [2,1,3],
+            ],
+            addedCard: [0, 3]
+        },
+        mockData: {
+            connectedCards: [0, 1, 2]
+        },
+        expected: -1,
         matcher: (a, b) => a === b,
         testedFunction: ({ connectedCards }, { testedInstance }) => {
             testedInstance.setProp.call(testedInstance, connectedCards, '_connectedCards');
