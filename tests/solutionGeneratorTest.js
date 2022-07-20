@@ -52,7 +52,7 @@ const getFirstNotRestrictedSymbol_TC = [
         testedFunction: ({symbols, restrictedSymbols}, { testedInstance }) => {
             testedInstance.symbols = symbols;
             testedInstance.setProp.call(testedInstance, restrictedSymbols, '_restrictedSymbols');
-            return testedInstance.getFirstNotRestrictedSymbol.bind(testedInstance)
+            return testedInstance.getFirstNotRestrictedSymbol.bind(testedInstance,[])
         },
     },
     {
@@ -67,7 +67,7 @@ const getFirstNotRestrictedSymbol_TC = [
         testedFunction: ({symbols, restrictedSymbols}, { testedInstance }) => {
             testedInstance.symbols = symbols;
             testedInstance.setProp.call(testedInstance, restrictedSymbols, '_restrictedSymbols');
-            return testedInstance.getFirstNotRestrictedSymbol.bind(testedInstance)
+            return testedInstance.getFirstNotRestrictedSymbol.bind(testedInstance,[])
         },
     },
     {
@@ -82,7 +82,23 @@ const getFirstNotRestrictedSymbol_TC = [
         testedFunction: ({symbols, restrictedSymbols}, { testedInstance }) => {
             testedInstance.symbols = symbols;
             testedInstance.setProp.call(testedInstance, restrictedSymbols, '_restrictedSymbols');
-            return testedInstance.getFirstNotRestrictedSymbol.bind(testedInstance)
+            return testedInstance.getFirstNotRestrictedSymbol.bind(testedInstance,[])
+        },
+    },
+    {
+        description: 'Expect to return 4 in case restricted symbols are [0, 1, 5, 6, 7] and excluded symbols are [2, 3]',
+        mockData: {
+            symbols: [0,1,2,3,4,5,6,7],
+            restrictedSymbols: {0:true,1:true,5:true,6:true, 7:true},
+            excludedSymbols: [2, 3]
+        },
+        input: null,
+        expected: 4,
+
+        testedFunction: ({symbols, restrictedSymbols, excludedSymbols}, { testedInstance }) => {
+            testedInstance.symbols = symbols;
+            testedInstance.setProp.call(testedInstance, restrictedSymbols, '_restrictedSymbols');
+            return testedInstance.getFirstNotRestrictedSymbol.bind(testedInstance,excludedSymbols)
         },
     },
 ]
