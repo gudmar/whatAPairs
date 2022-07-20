@@ -70,8 +70,15 @@ class CardsGenerator {
 
     getSymbolsArray(nrOfSymbols) { return Array(nrOfSymbols).fill().map((_, index) => index); }
 
-    getFirstNotRestrictedSymbol(){
-        const foundSymol = this.symbols.find((item, index) => { return item !== this.restrictedSymbols[index]})
+    getFirstNotRestrictedSymbol(listOfExcludedSymbols = this.restrictedSymbols){
+        const restrictedSymbolsCp = JSON.parse(JSON.stringify(this._restrictedSymbols));
+        const comparationFunction = (a, b) => {a < b ? -1 : (a > b ? 1 : 0)}
+        const restrictedSymbolsObject = listOfExcludedSymbols.reduce((prev, symbol) => {
+            prev[symbol] = true;
+            return prev;
+        },restrictedSymbolsCp)
+        const restrictedSymbols = Object.keys(restrictedSymbolsObject).sort(comparationFunction).map(s => parseInt(s));
+        const foundSymol = this.symbols.find((item, index) => { return item !== restrictedSymbols[index]})
         return foundSymol === undefined ? -1 : foundSymol
     }
 
@@ -229,10 +236,10 @@ class CardsGenerator {
         //Connect first not restricted card with first not restricted symbol
         // debugger
         const wholeSolution = [...this.solution, this.addedCard]
+        const isSymbolAlreadyInTargetCard = this.solution[firstNotConnectedCardIndex].includes(firstNotRestrictedSymbol);
         try{
-            this.solution[firstNotConnectedCardIndex].push(firstNotRestrictedSymbol);
+            if (!isSymbolAlreadyInTargetCard) this.solution[firstNotConnectedCardIndex].push(firstNotRestrictedSymbol);
             this.addedCard.push(firstNotRestrictedSymbol)
-            
         } catch(e) {
             console.error(e)
             debugger;
