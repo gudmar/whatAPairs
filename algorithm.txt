@@ -90,3 +90,26 @@ do
 	if (card has too many symbols) error
 	if (newly added connections === 0 and first not connected card === -1) error
 while not final solution
+
+
+isPossibleToConnectToCard(solution, targetCard, symbol){
+	targetCardIncludesSymbol
+	nrOfRepetitionsInSolution
+	desiredNumberOfRepetitionsInSolution
+
+	if (!targetCardIncludesSymbol) {
+		return nrOfRepetitionsInSolution <= desiredNumberOfRepetitionsInSolution - 2
+	} else {
+		return nrOfRepetitionsInSolution <= desiredNumberOfRepetitionsInSolution - 1
+	}
+
+
+}
+
+
+Finding valid connection:
+listOfExcludedSymbols = [];
+X
+	Get first not restricted symbol
+	Get first not connected card
+isPossibleToConnectToCard ? return card : { add first not restircted symbol to list of listOfExcludedSymbols go to X }

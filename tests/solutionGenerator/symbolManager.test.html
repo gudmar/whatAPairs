@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>What a pairs tests</title>
+    <link rel="stylesheet" href="../../libs/testReport.css">
+</head>
+<body>
+    <div id="root"></div>
+</body>
+
+<script type="module">
+    import TestReport from '../../libs/testReport.js';
+    import Injector from '../../libs/injector.js';
+    import BasicHTMLElementCreator from '../../libs/createBasicHTMLElement.js'
+    import RestrictedSymbolManager from '../../helpers/solutionGenerator/symbolManager.js'
+    import {
+        alignWithSolutionAndAddedCard_TC
+    } from './symbolManager.test.js'
+
+    (function() {
+        window.addEventListener('DOMContentLoaded', () => {
+            const htmlCreator = new BasicHTMLElementCreator();
+            const testExecutor = new TestReport();
+            const injector = new Injector();
+
+            const testReport_alighWithSolutionAndAddedCard = testExecutor.getTestReport({
+                testCases: alignWithSolutionAndAddedCard_TC,
+                title: 'getSymbolsArray'
+            });
+            
+            injector.inject(htmlCreator.createBasicHTMLElement('h3',[{innerText: 'alignWithSolutionAndAddedCard'}]))
+            injector.inject(testReport_alighWithSolutionAndAddedCard)
+
+        })
+    })()
+</script>
+</html>
