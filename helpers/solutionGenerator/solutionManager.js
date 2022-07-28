@@ -18,6 +18,7 @@ class SolutionManager {
             else prev[symbol] += 1;
         },{})
         this.symbolRepetitions = result;
+        return result;
     }
 
     getSymbolRepetition(symbol){

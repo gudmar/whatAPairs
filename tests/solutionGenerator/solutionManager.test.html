@@ -18,9 +18,9 @@
     import BasicHTMLElementCreator from '../../libs/createBasicHTMLElement.js'
     import RestrictedSymbolManager from '../../helpers/solutionGenerator/symbolManager.js'
     import {
-        alignWithSolutionAndAddedCard_TC,
-        findFirstNotRestrictedSymbol_TC,
-    } from './symbolManager.test.js'
+        countAllSymbols_TC,
+        
+    } from './solutionManager.test.js'
 
     (function() {
         window.addEventListener('DOMContentLoaded', () => {
@@ -28,20 +28,15 @@
             const testExecutor = new TestReport();
             const injector = new Injector();
 
-            const testReport_alighWithSolutionAndAddedCard = testExecutor.getTestReport({
-                testCases: alignWithSolutionAndAddedCard_TC,
-                title: 'alignWithSolutionAndAddedCard'
+            const testReport_countAllSymbols = testExecutor.getTestReport({
+                testCases: countAllSymbols_TC,
+                title: 'countAllSymbols'
             });
-            injector.inject(htmlCreator.createBasicHTMLElement('h3',[{innerText: 'alignWithSolutionAndAddedCard'}]))
-            injector.inject(testReport_alighWithSolutionAndAddedCard)
+            injector.inject(htmlCreator.createBasicHTMLElement('h3',[{innerText: 'countAllSymbols'}]))
+            injector.inject(testReport_countAllSymbols)
 
             testExecutor.clearTestResults();
-            const testReport_findFirstNotRestrictedSymbol = testExecutor.getTestReport({
-                testCases: findFirstNotRestrictedSymbol_TC,
-                title: 'findFirstNotRestirctedSymbol_TC'
-            });            
-            injector.inject(htmlCreator.createBasicHTMLElement('h3',[{innerText: 'findFirstNotRestrictedSymbol'}]))
-            injector.inject(testReport_findFirstNotRestrictedSymbol)
+
 
         })
     })()

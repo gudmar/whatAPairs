@@ -149,9 +149,86 @@ const alignWithSolutionAndAddedCard_TC = [
         },
         matcher: arraysHaveSamePrimitiveElements
     },
+    {
+        mockData: {
+            allSymbolsCounted:{
+                '1':4,
+                '2':2,
+                '3':3,
+                '4': 2,
+                '5':1,
+                '6':1,
+                '7':1,
+                '8':1,
+                '9':1,
+                '10':1,
+            }, 
+            countAllSymbols: function() {return this.allSymbolsCounted},
+            symbolRepetitions: {
+                // all symbols counterd
+            },
+            solution: [
+                [1, 2, 3],
+                [1, 4, 5],
+                [2, 4, 6],
+                [1, 7, 8],
+                [1, 9, 10],
+            ],
+            addedCard:[6]
+        },
+        description: 'Expect outcome not to depend on order of elements in restricted symbols array,',
+        expected: [1, 6, 4, 2],
+        input: null,
+        testedFunction: (mockData, beforeEachData) => {
+            const mocked = new Mocker();
+            mocked.mockParam('allSymbolsCounted', mockData.allSymbolsCounted);
+            mocked.mockParam('symbolRepetitions', mockData.allSymbolsCounted);
+            mocked.mockParam('solution', mockData.solution);
+            mocked.mockMethod('countAllSymbols', mockData.countAllSymbols)
+            beforeEachData.testedInstance.alignWithSolutionAndAddedCard(mocked, mockData.addedCard)
+            return () =>  Object.keys(beforeEachData.testedInstance._restrictedSymbols).map(s => parseInt(s));
+        },
+        matcher: arraysHaveSamePrimitiveElements
+    },
 ];
+
+const findFirstNotRestrictedSymbol_TC = [
+    {
+        mockData: {
+            restrictedSymbols: [1, 2, 3, 4, 0],
+        },
+        beforeEachData: {/*constructor data*/ desiredNrOfCards: 4},
+        description: 'Expect to return 6 in case the first not restricted symbol is 6',
+        expected: 5,
+        input: null,
+        beforeEach: ({desiredNrOfCards}) => {return {testedInstance: new RestrictedSymbolsManager(desiredNrOfCards)}},
+        testedFunction: (mockData, beforeEachData) => {
+            beforeEachData.testedInstance._restrictedSymbols = mockData.restrictedSymbols
+            const outcome = beforeEachData.testedInstance.findFirstNotRestrictedSymbol.bind(beforeEachData.testedInstance);
+            return outcome;
+        },
+        matcher: (a, b) => a === b
+    },
+    {
+        mockData: {
+
+            restrictedSymbols: [1, 5, 6, 3, 4, 0],
+        },
+        beforeEachData: {/*constructor data*/ desiredNrOfCards: 4},
+        description: 'Expect to return 2 in case the first not restricted symbol is 2. Searched symbol is in the middle of restricted symbols',
+        expected: 2,
+        input: null,
+        beforeEach: ({desiredNrOfCards}) => {return {testedInstance: new RestrictedSymbolsManager(desiredNrOfCards)}},
+        testedFunction: (mockData, beforeEachData) => {
+            beforeEachData.testedInstance._restrictedSymbols = mockData.restrictedSymbols
+            const outcome = beforeEachData.testedInstance.findFirstNotRestrictedSymbol.bind(beforeEachData.testedInstance);
+            return outcome;
+        },
+        matcher: (a, b) => a === b
+    }
+]
 
 export {
     alignWithSolutionAndAddedCard_TC,
-
+    findFirstNotRestrictedSymbol_TC,
 }
