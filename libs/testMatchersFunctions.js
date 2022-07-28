@@ -1,3 +1,5 @@
+import { objectsEqual } from './testMatchers.js'
+
 class ArrayElementsCounter {
     constructor(arr){
         this.mapObj = new Map();
@@ -29,11 +31,11 @@ class ArrayElementsCounter {
     }
 }
 
-function isPrimitive(val) {
-    const primitiveTypes = ['string', 'number', 'bigint', 'boolean', 'symbol'];
-    const valType = typeof val;
-    return primitiveTypes.find(type => valType === type)
-}
+// function isPrimitive(val) {
+//     const primitiveTypes = ['string', 'number', 'bigint', 'boolean', 'symbol'];
+//     const valType = typeof val;
+//     return primitiveTypes.find(type => valType === type)
+// }
 
 function allArrayElementsArePrimitive(arr) {
     return arr.reduce((item, acc) => {
@@ -50,9 +52,23 @@ function countElementsOfArray(arr) {
     }, {})
 }
 
+function isPrimitive(val) {
+    if (val === null) return true;
+    return ['string', 'symbol', 'bigInt', 'number', 'undefined', 'boolean'].includes(typeof val);
+}
+
+function areObjectsEqual(obj1, obj2){
+    if (Object.keys(obj1).length !== Object.keys(obj2).length) return false;
+    return Object.keys(obj1).reduce((prev, key) => {
+        if (!objectsEqual(obj1[key], obj2[key])) prev = false;
+        return prev
+    }, true)
+}
+
 export { 
     countElementsOfArray,
     isPrimitive,
     allArrayElementsArePrimitive,
     ArrayElementsCounter,
+    areObjectsEqual,
 }
